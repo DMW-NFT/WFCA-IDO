@@ -74,7 +74,7 @@ export default function Home() {
             src="https://www.wfca.io/assets/img/logo.png"
             alt=""
           />
-          <span className="text-white text-[20px] font-[700]">logo</span>
+          <span className="text-white text-[20px] font-[700]">WFCA</span>
         </div>
         <div className="text-[#D7F3FC]   font-[700] mb-[30px]">
           WFCA Infrastructure
@@ -173,7 +173,9 @@ export default function Home() {
         </div>
 
         {/* 缩放图标 */}
-        <div className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden ">
+        <div className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
+        style={{showsHorizontalScrollIndicator:false}}
+        >
           <Image
             src={Mask1}
             alt="Album"
