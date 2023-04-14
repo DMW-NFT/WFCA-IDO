@@ -88,7 +88,6 @@ export default function Ido() {
         </div>
       </div>
 
-
       <div className="w-full lg:px-40">
         <div className="h-[60px] lg:h-[140px] w-full bg-[#0f103c] "></div>
         <div className=" pb-[40px] bg-[#0f103c] text-[#fff] flex flex-col">
@@ -97,7 +96,8 @@ export default function Ido() {
           </div>
           <div className="w-[72%] text-[16px]  leading-[24px] mx-[auto]">
             <p className=" ">
-              这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，
+              Welcome to WFCA, the revolutionary platform focused on
+              delivering the best of Web3 projects in Crypto!
             </p>
           </div>
         </div>
@@ -140,14 +140,12 @@ export default function Ido() {
          className="h-[360px] w-[640px] object-cover mr-[40px]"
         ></video> */}
           <div className="px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]  h-[360px] w-full object-cover lg:mr-[40px] overflow-hidden flex items-center">
-          <Player
-            autoPlay={true}
-            playsInline={true}
-            src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
-            poster="https://video-react.js.org/assets/poster.png"
-          >
-
-            {/* <ControlBar autoHide={false} >
+            <Player
+              autoPlay={true}
+              playsInline={true}
+              src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
+              poster="https://video-react.js.org/assets/poster.png">
+              {/* <ControlBar autoHide={false} >
               <ReplayControl seconds={10} order={1.1} />
               <PlayToggle />
               <CurrentTimeDisplay order={4.1} />
@@ -155,7 +153,7 @@ export default function Ido() {
               <PlaybackRateMenuButton rates={[5, 2, 1.5, 1, 0.5]} order={7.1} />
               <VolumeMenuButton />
             </ControlBar> */}
-          </Player>
+            </Player>
           </div>
 
           {/* <Image
@@ -173,9 +171,9 @@ export default function Ido() {
         </div>
 
         {/* 缩放图标 */}
-        <div className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
-        style={{showsHorizontalScrollIndicator:false}}
-        >
+        <div
+          className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
+          style={{ showsHorizontalScrollIndicator: false }}>
           <Image
             src={Mask1}
             alt="Album"
@@ -204,34 +202,58 @@ export default function Ido() {
               <span>Virtual Market Building</span>
             </div>
           </div>
-          <Image src={metaverse} alt="Album" className=" w-[72%] mx-[auto]  lg:mx-[0] lg:ml-[140px] lg:w-1/3 " />
+          <Image
+            src={metaverse}
+            alt="Album"
+            className=" w-[72%] mx-[auto]  lg:mx-[0] lg:ml-[140px] lg:w-1/3 "
+          />
         </div>
 
         <div className="flex flex-col lg:flex-row  lg:w-full  lg:justify-between  text-white items-center mb-[60px] lg:mb-[140px]">
           <div className="flex-1">
-            <div className=" mx-[auto] text-[22px] lg:w-full lg:text-[36px] leading-[36px]  mb-[20px] lg:mb-[40px]">DMW</div>
+            <div className=" mx-[auto] text-[22px] lg:w-full lg:text-[36px] leading-[36px]  mb-[20px] lg:mb-[40px]">
+              DMW
+            </div>
             <div className="text-[16px] leading-[16px] flex justify-between flex-col">
-              <span className="mb-[20px] lg:mb-[32px]">Decentralized NFT platform</span>
-              <span className="mb-[20px] lg:mb-[32px]">Developing the Anime NFT Market</span>
-              <span className="mb-[20px] lg:mb-[0]" >Solving Digital Bottlenecks</span>
+              <span className="mb-[20px] lg:mb-[32px]">
+                Decentralized NFT platform
+              </span>
+              <span className="mb-[20px] lg:mb-[32px]">
+                Developing the Anime NFT Market
+              </span>
+              <span className="mb-[20px] lg:mb-[0]">
+                Solving Digital Bottlenecks
+              </span>
             </div>
           </div>
           <Image src={dmw} alt="Album" className="w-[72%] lg:w-[36%] " />
         </div>
 
         <div className="flex flex-col lg:flex-row lg:w-full  justify-between  text-white lg:items-center mb-[60px] lg:mb-[151px]">
-          <Image src={decentralized} alt="Album" className="hidden lg:block  lg:w-1/3  " />
+          <Image
+            src={decentralized}
+            alt="Album"
+            className="hidden lg:block  lg:w-1/3  "
+          />
           <div className="mx-[auto] mb-[20px] lg:w-[auto]  lg:mx-[0] lg:mb-[0]">
             <div className=" mx-[auto] text-[22px] lg:w-full lg:text-[36px] leading-[36px]  mb-[20px] lg:mb-[40px]">
               Decentralized Finance
             </div>
             <div className="text-[16px] leading-[16px] flex justify-between flex-col">
-              <span className="mb-[20px] lg:mb-[32px]">Simple and easy to use</span>
-              <span className="mb-[20px] lg:mb-[32px]">Instant Exchange with one tap</span>
+              <span className="mb-[20px] lg:mb-[32px]">
+                Simple and easy to use
+              </span>
+              <span className="mb-[20px] lg:mb-[32px]">
+                Instant Exchange with one tap
+              </span>
               <span>Easy crypto asset Management</span>
             </div>
           </div>
-          <Image src={decentralized} alt="Album" className=" block lg:hidden  w-[72%] mx-[auto]" />
+          <Image
+            src={decentralized}
+            alt="Album"
+            className=" block lg:hidden  w-[72%] mx-[auto]"
+          />
         </div>
 
         <div className="text-white text-[20px] lg:text-[36px] leading-[36px] text-center font-[700] mb-[24px]">
@@ -311,38 +333,64 @@ export default function Ido() {
           </div>
         </div>
 
-
         <div className="flex  justify-between px-[20px] bg-[#000c32] pt-[20px]">
-          <div style={{flex:2}}>
+          <div style={{ flex: 2 }}>
             <div className="text-[12px] font-[700] mb-[20px]">PRODUCTS</div>
             <div className="text-[10px] ">
-              <a href="https://www.animemeta.io/#/home" className="mb-[15px] block">Metaverse</a>
-              <a href="https://www.animemeta.io/#/home" className="mb-[15px] block">NFT Marketplace</a>
+              <a
+                href="https://www.animemeta.io/#/home"
+                className="mb-[15px] block">
+                Metaverse
+              </a>
+              <a
+                href="https://www.animemeta.io/#/home"
+                className="mb-[15px] block">
+                NFT Marketplace
+              </a>
               {/* <div className="mb-[15px]">DeFi</div> */}
             </div>
           </div>
 
-          <div style={{flex:2}}>
+          <div style={{ flex: 2 }}>
             <div className="text-[12px] font-[700] mb-[20px]">COMMUNITY</div>
             <div className="text-[10px]">
-            <a href="https://twitter.com/wfca_global" className="mb-[15px] block">Twitter</a>
-              <a href="https://twitter.com/ANIMETA_NFT" className="mb-[15px] block">Twitter(NFT)</a>
-              <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[15px] block">Github</a>
+              <a
+                href="https://twitter.com/wfca_global"
+                className="mb-[15px] block">
+                Twitter
+              </a>
+              <a
+                href="https://twitter.com/ANIMETA_NFT"
+                className="mb-[15px] block">
+                Twitter(NFT)
+              </a>
+              <a
+                href="https://github.com/ANIMETA-GLOBAL"
+                className="mb-[15px] block">
+                Github
+              </a>
             </div>
           </div>
 
-          <div style={{flex:3}}>
+          <div style={{ flex: 3 }}>
             <div className="text-[12px] font-[700] mb-[20px]">
               LINKS & Partners
             </div>
             <div className="text-[10px]">
-            <a href="https://dde-fintech.com/" className="mb-[15px] block">DDE FINTECH HOLDING</a>
-              <a href="http://99hln.com/" className="mb-[15px] block">99 Hualian</a>
-              <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[15px] block">Etherscan</a>
+              <a href="https://dde-fintech.com/" className="mb-[15px] block">
+                DDE FINTECH HOLDING
+              </a>
+              <a href="http://99hln.com/" className="mb-[15px] block">
+                99 Hualian
+              </a>
+              <a
+                href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902"
+                className="mb-[15px] block">
+                Etherscan
+              </a>
             </div>
           </div>
         </div>
-
 
         <div className="w-full h-[auto]">
           <div className="flex w-full pl-[20px] pr-[20px] h-[60px] justify-between lg:pl-[80px] lg:pr-[80px] items-center ">
@@ -372,18 +420,38 @@ export default function Ido() {
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">PRODUCTS</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-              <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">Metaverse</a>
-              <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">NFT Marketplace</a>
-              {/* <div className="mb-[40px]">DeFi</div> */}
+                <a
+                  href="https://www.animemeta.io/#/home"
+                  className="mb-[40px] block">
+                  Metaverse
+                </a>
+                <a
+                  href="https://www.animemeta.io/#/home"
+                  className="mb-[40px] block">
+                  NFT Marketplace
+                </a>
+                {/* <div className="mb-[40px]">DeFi</div> */}
               </div>
             </div>
 
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">COMMUNITY</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-              <a href="https://twitter.com/wfca_global" className="mb-[40px] block">Twitter</a>
-              <a href="https://twitter.com/ANIMETA_NFT" className="mb-[40px] block">Twitter(NFT)</a>
-              <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[40px] block">Github</a>
+                <a
+                  href="https://twitter.com/wfca_global"
+                  className="mb-[40px] block">
+                  Twitter
+                </a>
+                <a
+                  href="https://twitter.com/ANIMETA_NFT"
+                  className="mb-[40px] block">
+                  Twitter(NFT)
+                </a>
+                <a
+                  href="https://github.com/ANIMETA-GLOBAL"
+                  className="mb-[40px] block">
+                  Github
+                </a>
               </div>
             </div>
 
@@ -392,9 +460,17 @@ export default function Ido() {
                 LINKS & Partners
               </div>
               <div className="text-[18px] font-[700] leading-[18px]">
-              <a href="https://dde-fintech.com/" className="mb-[40px] block">DDE FINTECH HOLDING</a>
-              <a href="http://99hln.com/" className="mb-[40px] block">99 Hualian</a>
-              <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[40px] block">Etherscan</a>
+                <a href="https://dde-fintech.com/" className="mb-[40px] block">
+                  DDE FINTECH HOLDING
+                </a>
+                <a href="http://99hln.com/" className="mb-[40px] block">
+                  99 Hualian
+                </a>
+                <a
+                  href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902"
+                  className="mb-[40px] block">
+                  Etherscan
+                </a>
               </div>
             </div>
           </div>
