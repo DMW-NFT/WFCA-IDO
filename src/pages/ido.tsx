@@ -17,6 +17,7 @@ import {
 import { useEffect, useState } from "react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { ethers } from "ethers";
+import Head from "next/head";
 export default function Home() {
   const connectionStatus = useConnectionStatus();
   const wallet = useWallet();
@@ -53,7 +54,7 @@ export default function Home() {
 
   const getAddressInviter = () => {
     fetch(
-      `http://idoapi.wfca.io/api/getRelationship?wallet=${currentWalletAddress}`
+      `https://idoapi.wfca.io/api/getRelationship?wallet=${currentWalletAddress}`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -99,7 +100,7 @@ export default function Home() {
 
   const getClaimedAmount = () => {
     fetch(
-      `http://idoapi.wfca.io/api/getWalletRecord?wallet=${currentWalletAddress}`
+      `https://idoapi.wfca.io/api/getWalletRecord?wallet=${currentWalletAddress}`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -145,7 +146,7 @@ export default function Home() {
     signature?: string | undefined;
   }) => {
     fetch(
-      `http://idoapi.wfca.io/api/bindRelationship?message=${signedMessage.message}&&signature=${signedMessage.signature}`
+      `https://idoapi.wfca.io/api/bindRelationship?message=${signedMessage.message}&&signature=${signedMessage.signature}`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -168,7 +169,7 @@ export default function Home() {
   };
   const getInviteeHistory = () => {
     fetch(
-      `http://idoapi.wfca.io/api/getRechargeRecord?wallet=${currentWalletAddress}`
+      `https://idoapi.wfca.io/api/getRechargeRecord?wallet=${currentWalletAddress}`
     )
       .then((res) => res.json())
       .then((res) => {
@@ -200,6 +201,12 @@ export default function Home() {
   }, [currentWalletAddress]);
   return (
     <div className="min-h-[1600px] h-auto lg:min-h-screen bg-[#0f103c] text-white flex">
+      <Head>
+        <link
+          rel="shortcut icon"
+          href="https://www.wfca.io/assets/img/logo.png"
+        />
+      </Head>
       <Image
         src={bannar}
         alt="Album"
@@ -232,7 +239,9 @@ export default function Home() {
               </div>
             </div>
             <div className="w-full">
-              <div className="ds-badge ds-badge-warning text-white">USDT</div>
+              <div className="ds-badge ds-badge-warning text-white">
+                100 USDT/WFCA
+              </div>
             </div>
             <div className="w-full grow text-center">
               欢迎来到
@@ -311,7 +320,7 @@ export default function Home() {
                 </div>
                 <div className="w-1/2 pl-2">
                   <p className=" text-sm text-white">您的等级:</p>
-                  <p className=" text-2xl text-white">Lv 6</p>
+                  <p className=" text-2xl text-white">Lv 5</p>
                   <p className=" text-sm text-white">有效邀请人数:</p>
                   <p className=" text-2xl text-white">
                     {inviteeHistory ? inviteeHistory.total : 0}
@@ -524,6 +533,12 @@ export default function Home() {
                   console.log(e.target.value);
                 }}
               />
+              <label className="ds-label">
+                <span className="ds-label-text-alt text-white text-xl">
+                  需要支付:{claimAmount * 100} USDT
+                </span>
+                {/* <span className="ds-label-text-alt">Bottom Right label</span> */}
+              </label>
             </div>
           </div>
           <p className="py-4">

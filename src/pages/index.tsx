@@ -27,16 +27,23 @@ import {
 } from "video-react";
 import "video-react/dist/video-react.css"; // import css
 import { useRouter } from "next/navigation";
+import Head from "next/head";
 
 export default function Home() {
   const router = useRouter();
-  const gotopdf = (url:string) => {
-    window.open(url)
-  }
+  const gotopdf = (url: string) => {
+    window.open(url);
+  };
   return (
     <div className=" w-full h-auto bg-[#0f103c] lg:pb-[0]">
+      <Head>
+        <link
+          rel="shortcut icon"
+          href="https://www.wfca.io/assets/img/logo.png"
+        />
+      </Head>
       {/* header */}
-      <div className="hidden lg:flex w-full pl-[20px] pr-[20px] h-[104px] bg-black  justify-between lg:pl-[80px] lg:pr-[80px] items-center ">
+      <div className="hidden lg:flex w-full pl-[20px] pr-[20px] h-[104px] bg-black bg-opacity-60 justify-between lg:pl-[80px] lg:pr-[80px] items-center ">
         <div className="w-[60px] h-[60px] flex align items-center ">
           <img
             className="rounded-full w-[60px] h-[60px] mr-[24px]"
@@ -46,7 +53,11 @@ export default function Home() {
           <span className="text-white text-[32px]">WFCA</span>
         </div>
         <div className="flex justify-between text-[#333] items-center">
-          <div className="hover:cursor-pointer font-[700] h-[40px] px-[40px] lg:h-[60px] lg:px-[64px] lg:leading-[64px] leading-[40px] border rounded-[8px] bg-[#f4f4f4]"  onClick={()=>{router.push('/ido')}}>
+          <div
+            className="hover:cursor-pointer font-[700] h-[40px] px-[40px] lg:h-[60px] lg:px-[64px] lg:leading-[64px] leading-[40px] border rounded-[8px] bg-[#f4f4f4]"
+            onClick={() => {
+              router.push("/ido");
+            }}>
             IDO
           </div>
           {/* <div className=' h-[40px] px-[40px] leading-[40px] border-[#87F2F8] border rounded-full bg-[#d7f3fc] '>中文</div> */}
@@ -54,19 +65,19 @@ export default function Home() {
       </div>
       {/* bannar */}
       <div
-        className="h-[auto] bg-no-repeat hidden lg:block bg-cover lg:pb-[100px] xl:pb-[210px] 2xl:pb-[190px]"
+        className="h-auto bg-no-repeat hidden lg:block bg-cover lg:pb-[100px] xl:pb-[210px] 2xl:pb-[190px]"
         style={style.bannar}>
         {/* <div className="h-[950px] absolute z-0 backdrop-brightness-50 "></div> */}
         <div className=" lg:pt-[210px] xl:pt-[260px] 2xl:pt-[310px] z-10 px-[13%]">
-          <div className="text-[#D7F3FC] lg:text-[40px] lg:mb-[40px]  ">
+          <div className="text-[#D7F3FC] lg:text-[40px] lg:mb-[40px] w-auto  bg-black bg-opacity-20 backdrop-blur-sm p-4">
             WFCA Infrastructure
           </div>
-          <div className="text-[#D7F3FC] lg:text-[24px]">
-            Metaverse,NFT,Proprietary Chains,DeFi.
+          <div className="text-[#D7F3FC] lg:text-[24px]  bg-black bg-opacity-20 backdrop-blur-sm  p-4">
+            WFCA
+            Infrastructure是一个基于区块链技术的基础设施，包括元宇宙、NFT、专用链和DeFi等概念。
             <br />
-            Establishment of a unique economic zone
-            <br />
-            utilizing these resources.
+            使用去中心化的区块链特性，WFCA
+            Infrastructure提供了一个安全、透明和高效的经济系统，为全球贸易和经济发展带来新机遇。
           </div>
         </div>
       </div>
@@ -84,11 +95,11 @@ export default function Home() {
           WFCA Infrastructure
         </div>
         <div className="text-[#D7F3FC]">
-          Metaverse,NFT,Proprietary Chains,DeFi.
+          WFCA
+          Infrastructure是一个基于区块链技术的基础设施，包括元宇宙、NFT、专用链和DeFi等概念。
           <br />
-          Establishment of a unique economic zone
-          <br />
-          utilizing these resources.
+          使用去中心化的区块链特性，WFCA
+          Infrastructure提供了一个安全、透明和高效的经济系统，为全球贸易和经济发展带来新机遇。
         </div>
       </div>
 
@@ -100,22 +111,30 @@ export default function Home() {
           </div>
           <div className="w-[72%] text-[16px]  leading-[24px] mx-[auto]">
             <p className=" ">
-              Welcome to WFCA, the revolutionary platform focused on
-              delivering the best of Web3 projects in Crypto!
+              日本上市集团，百年稀有矿企数字通证WFCA正式启动，本次STO除了将行业利润提前释放之外，更是预示着WFCA产能通证化、销售智能化等全面链改推行。同时WFCA与元宇宙数据公链MNT超级生态+MND万人社群强强联手，更是夯实了Web3矿业第一股的发展预期，为即将到来的万物互联时代做出杰出贡献。目前WFCA已引起行业头部资本NEX、EVG等头部资本的紧密关注。
+              <br />
+              IDO 火热进行中，持有WFCA，把握区块链的未来
+              <br />
             </p>
           </div>
         </div>
 
-        <div className="mb-[60px] w-[160px] h-[60px] leading-[60px] text-center rounded-lg border  border-[#666] lg:mb-[150px] bg-[#f4f4f4] mx-[auto] hover:cursor-pointer" onClick={()=>{router.push('/ido')}}>
+        <div
+          className="mb-[60px] w-[160px] h-[60px] leading-[60px] text-center rounded-lg border  border-[#666] lg:mb-[150px] bg-[#f4f4f4] mx-[auto] hover:cursor-pointer"
+          onClick={() => {
+            router.push("/ido");
+          }}>
           进入
         </div>
 
         <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[140px] px-[20%] z-10">
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
-           onClick={()=>{
-            gotopdf('https://dde-fintech.com/')
-          }}
-          >
+          <div
+            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            onClick={() => {
+              gotopdf(
+                "https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf"
+              );
+            }}>
             <Image
               src={icontips}
               alt="Album"
@@ -123,11 +142,11 @@ export default function Home() {
             />
             <div>项目介绍</div>
           </div>
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
-           onClick={()=>{
-            gotopdf('https://dde-fintech.com/')
-          }}
-          >
+          <div
+            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            onClick={() => {
+              gotopdf("https://dde-fintech.com/");
+            }}>
             <Image
               src={iconroom}
               alt="Album"
@@ -136,9 +155,13 @@ export default function Home() {
             <div>企业介绍</div>
           </div>
 
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer" onClick={()=>{
-            gotopdf('https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf')
-          }}>
+          <div
+            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            onClick={() => {
+              gotopdf(
+                "https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf"
+              );
+            }}>
             <Image
               src={iconbook}
               alt="Album"
@@ -153,14 +176,12 @@ export default function Home() {
           {/* <video src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
          className="h-[360px] w-[640px] object-cover mr-[40px]"
         ></video> */}
-          <div className=" w-[675px]  px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
+          <div className=" lg:w-[675px] w-full  mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
             <Player
               autoPlay={true}
               playsInline={true}
               src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
-              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg"
-            >
-
+              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg">
               {/* <ControlBar autoHide={false} >
               <ReplayControl seconds={10} order={1.1} />
               <PlayToggle />
@@ -177,9 +198,7 @@ export default function Home() {
               autoPlay={true}
               playsInline={true}
               src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
-              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg"
-            >
-
+              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg">
               {/* <ControlBar autoHide={false} >
               <ReplayControl seconds={10} order={1.1} />
               <PlayToggle />
@@ -197,18 +216,20 @@ export default function Home() {
         /> */}
           <div>
             <div className="text-[20px] lg:text-[36px] font-[700] leading-[30px] mb-[40px] text-center ">
-              视频标题
+              我们的使命
             </div>
             <div className="w-[72%] lg:max-w-[720px] text-[14px] leading-[24px] mx-[auto]">
-              这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，这里是文案的地方，
+              通过世界最先端的区块链技术
+              <br />
+              以WFCA为工具，达到利益最大化。
             </div>
           </div>
         </div>
 
         {/* 缩放图标 */}
-        <div className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
-          style={{ showsHorizontalScrollIndicator: false }}
-        >
+        <div
+          className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
+          style={{ showsHorizontalScrollIndicator: false }}>
           <Image
             src={Mask1}
             alt="Album"
@@ -389,9 +410,21 @@ export default function Home() {
           <div style={{ flex: 2 }}>
             <div className="text-[12px] font-[700] mb-[20px]">COMMUNITY</div>
             <div className="text-[10px]">
-              <a href="https://twitter.com/wfca_global" className="mb-[15px] block">Twitter</a>
-              <a href="https://twitter.com/ANIMETA_NFT" className="mb-[15px] block">Twitter(NFT)</a>
-              <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[15px] block">Github</a>
+              <a
+                href="https://twitter.com/wfca_global"
+                className="mb-[15px] block">
+                Twitter
+              </a>
+              <a
+                href="https://twitter.com/ANIMETA_NFT"
+                className="mb-[15px] block">
+                Twitter(NFT)
+              </a>
+              <a
+                href="https://github.com/ANIMETA-GLOBAL"
+                className="mb-[15px] block">
+                Github
+              </a>
             </div>
           </div>
 
@@ -400,9 +433,17 @@ export default function Home() {
               LINKS & Partners
             </div>
             <div className="text-[10px]">
-              <a href="https://dde-fintech.com/" className="mb-[15px] block">DDE FINTECH HOLDING</a>
-              <a href="http://99hln.com/" className="mb-[15px] block">99 Hualian</a>
-              <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[15px] block">Etherscan</a>
+              <a href="https://dde-fintech.com/" className="mb-[15px] block">
+                DDE FINTECH HOLDING
+              </a>
+              <a href="http://99hln.com/" className="mb-[15px] block">
+                99 Hualian
+              </a>
+              <a
+                href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902"
+                className="mb-[15px] block">
+                Etherscan
+              </a>
             </div>
           </div>
         </div>
@@ -435,8 +476,16 @@ export default function Home() {
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">PRODUCTS</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-                <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">Metaverse</a>
-                <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">NFT Marketplace</a>
+                <a
+                  href="https://www.animemeta.io/#/home"
+                  className="mb-[40px] block">
+                  Metaverse
+                </a>
+                <a
+                  href="https://www.animemeta.io/#/home"
+                  className="mb-[40px] block">
+                  NFT Marketplace
+                </a>
                 {/* <div className="mb-[40px]">DeFi</div> */}
               </div>
             </div>
@@ -444,9 +493,21 @@ export default function Home() {
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">COMMUNITY</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-                <a href="https://twitter.com/wfca_global" className="mb-[40px] block">Twitter</a>
-                <a href="https://twitter.com/ANIMETA_NFT" className="mb-[40px] block">Twitter(NFT)</a>
-                <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[40px] block">Github</a>
+                <a
+                  href="https://twitter.com/wfca_global"
+                  className="mb-[40px] block">
+                  Twitter
+                </a>
+                <a
+                  href="https://twitter.com/ANIMETA_NFT"
+                  className="mb-[40px] block">
+                  Twitter(NFT)
+                </a>
+                <a
+                  href="https://github.com/ANIMETA-GLOBAL"
+                  className="mb-[40px] block">
+                  Github
+                </a>
               </div>
             </div>
 
@@ -455,9 +516,17 @@ export default function Home() {
                 LINKS & Partners
               </div>
               <div className="text-[18px] font-[700] leading-[18px]">
-                <a href="https://dde-fintech.com/" className="mb-[40px] block">DDE FINTECH HOLDING</a>
-                <a href="http://99hln.com/" className="mb-[40px] block">99 Hualian</a>
-                <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[40px] block">Etherscan</a>
+                <a href="https://dde-fintech.com/" className="mb-[40px] block">
+                  DDE FINTECH HOLDING
+                </a>
+                <a href="http://99hln.com/" className="mb-[40px] block">
+                  99 Hualian
+                </a>
+                <a
+                  href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902"
+                  className="mb-[40px] block">
+                  Etherscan
+                </a>
               </div>
             </div>
           </div>
