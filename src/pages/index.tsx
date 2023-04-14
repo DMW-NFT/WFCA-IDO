@@ -28,10 +28,12 @@ import {
 import "video-react/dist/video-react.css"; // import css
 
 export default function Home() {
+  const gotopdf = (url:string) => {
+    window.open(url)
+  }
   return (
     <div className=" w-full h-auto bg-[#0f103c] lg:pb-[0]">
       {/* header */}
-
       <div className="hidden lg:flex w-full pl-[20px] pr-[20px] h-[104px] bg-black  justify-between lg:pl-[80px] lg:pr-[80px] items-center ">
         <div className="w-[60px] h-[60px] flex align items-center ">
           <img
@@ -42,7 +44,7 @@ export default function Home() {
           <span className="text-white text-[32px]">WFCA</span>
         </div>
         <div className="flex justify-between text-[#333] items-center">
-          <div className="font-[700] h-[40px] px-[40px] lg:h-[60px] lg:px-[64px] lg:leading-[64px] leading-[40px] border rounded-[8px] bg-[#f4f4f4]">
+          <div className="hover:cursor-pointer font-[700] h-[40px] px-[40px] lg:h-[60px] lg:px-[64px] lg:leading-[64px] leading-[40px] border rounded-[8px] bg-[#f4f4f4]">
             IDO
           </div>
           {/* <div className=' h-[40px] px-[40px] leading-[40px] border-[#87F2F8] border rounded-full bg-[#d7f3fc] '>中文</div> */}
@@ -70,7 +72,7 @@ export default function Home() {
       <div className=" lg:pt-[210px] xl:pt-[260px] 2xl:pt-[310px] z-10 px-[13%] text-center pt-[120px] block lg:hidden">
         <div className="h-[40px] flex align items-center mx-[auto] justify-center mb-[40px]">
           <img
-            className="rounded-full w-[40px] h-[40px] mr-[4px] "
+            className="rounded-full w-[40px] h-[40px] mr-[4px]"
             src="https://www.wfca.io/assets/img/logo.png"
             alt=""
           />
@@ -102,12 +104,16 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mb-[60px] w-[160px] h-[60px] leading-[60px] text-center rounded-lg border  border-[#666] lg:mb-[150px] bg-[#f4f4f4] mx-[auto]">
+        <div className="mb-[60px] w-[160px] h-[60px] leading-[60px] text-center rounded-lg border  border-[#666] lg:mb-[150px] bg-[#f4f4f4] mx-[auto] hover:cursor-pointer">
           进入
         </div>
 
-        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[140px] px-[20%]">
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700]">
+        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[140px] px-[20%] z-10">
+          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+           onClick={()=>{
+            gotopdf('https://dde-fintech.com/')
+          }}
+          >
             <Image
               src={icontips}
               alt="Album"
@@ -115,7 +121,11 @@ export default function Home() {
             />
             <div>项目介绍</div>
           </div>
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700]">
+          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+           onClick={()=>{
+            gotopdf('https://dde-fintech.com/')
+          }}
+          >
             <Image
               src={iconroom}
               alt="Album"
@@ -124,7 +134,9 @@ export default function Home() {
             <div>企业介绍</div>
           </div>
 
-          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700]">
+          <div className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer" onClick={()=>{
+            gotopdf('https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf')
+          }}>
             <Image
               src={iconbook}
               alt="Album"
@@ -135,19 +147,19 @@ export default function Home() {
         </div>
 
         {/* 视频 */}
-        <div className="h-[360px] text-white flex flex-col-reverse lg:flex-row lg:w-full  items-center mb-[60px] lg:mb-[107px]">
+        <div className="h-[360px]  text-white flex flex-col-reverse lg:flex-row lg:w-full  items-center mb-[60px] lg:mb-[107px] z-0">
           {/* <video src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
          className="h-[360px] w-[640px] object-cover mr-[40px]"
         ></video> */}
-          <div className="px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]  h-[360px] w-full object-cover lg:mr-[40px] overflow-hidden flex items-center">
-          <Player
-            autoPlay={true}
-            playsInline={true}
-            src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
-            poster="https://video-react.js.org/assets/poster.png"
-          >
+          <div className=" w-[675px]  px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
+            <Player
+              autoPlay={true}
+              playsInline={true}
+              src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
+              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg"
+            >
 
-            {/* <ControlBar autoHide={false} >
+              {/* <ControlBar autoHide={false} >
               <ReplayControl seconds={10} order={1.1} />
               <PlayToggle />
               <CurrentTimeDisplay order={4.1} />
@@ -155,7 +167,26 @@ export default function Home() {
               <PlaybackRateMenuButton rates={[5, 2, 1.5, 1, 0.5]} order={7.1} />
               <VolumeMenuButton />
             </ControlBar> */}
-          </Player>
+            </Player>
+          </div>
+
+          <div className="h-[360px] w-full px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center flex lg:hidden">
+            <Player
+              autoPlay={true}
+              playsInline={true}
+              src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
+              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg"
+            >
+
+              {/* <ControlBar autoHide={false} >
+              <ReplayControl seconds={10} order={1.1} />
+              <PlayToggle />
+              <CurrentTimeDisplay order={4.1} />
+              <TimeDivider order={4.2} />
+              <PlaybackRateMenuButton rates={[5, 2, 1.5, 1, 0.5]} order={7.1} />
+              <VolumeMenuButton />
+            </ControlBar> */}
+            </Player>
           </div>
 
           {/* <Image
@@ -174,7 +205,7 @@ export default function Home() {
 
         {/* 缩放图标 */}
         <div className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
-        style={{showsHorizontalScrollIndicator:false}}
+          style={{ showsHorizontalScrollIndicator: false }}
         >
           <Image
             src={Mask1}
@@ -313,7 +344,7 @@ export default function Home() {
 
 
         <div className="flex  justify-between px-[20px] bg-[#000c32] pt-[20px]">
-          <div style={{flex:2}}>
+          <div style={{ flex: 2 }}>
             <div className="text-[12px] font-[700] mb-[20px]">PRODUCTS</div>
             <div className="text-[10px] ">
               <a href="https://www.animemeta.io/#/home" className="mb-[15px] block">Metaverse</a>
@@ -322,21 +353,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{flex:2}}>
+          <div style={{ flex: 2 }}>
             <div className="text-[12px] font-[700] mb-[20px]">COMMUNITY</div>
             <div className="text-[10px]">
-            <a href="https://twitter.com/wfca_global" className="mb-[15px] block">Twitter</a>
+              <a href="https://twitter.com/wfca_global" className="mb-[15px] block">Twitter</a>
               <a href="https://twitter.com/ANIMETA_NFT" className="mb-[15px] block">Twitter(NFT)</a>
               <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[15px] block">Github</a>
             </div>
           </div>
 
-          <div style={{flex:3}}>
+          <div style={{ flex: 3 }}>
             <div className="text-[12px] font-[700] mb-[20px]">
               LINKS & Partners
             </div>
             <div className="text-[10px]">
-            <a href="https://dde-fintech.com/" className="mb-[15px] block">DDE FINTECH HOLDING</a>
+              <a href="https://dde-fintech.com/" className="mb-[15px] block">DDE FINTECH HOLDING</a>
               <a href="http://99hln.com/" className="mb-[15px] block">99 Hualian</a>
               <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[15px] block">Etherscan</a>
             </div>
@@ -372,18 +403,18 @@ export default function Home() {
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">PRODUCTS</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-              <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">Metaverse</a>
-              <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">NFT Marketplace</a>
-              {/* <div className="mb-[40px]">DeFi</div> */}
+                <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">Metaverse</a>
+                <a href="https://www.animemeta.io/#/home" className="mb-[40px] block">NFT Marketplace</a>
+                {/* <div className="mb-[40px]">DeFi</div> */}
               </div>
             </div>
 
             <div>
               <div className="text-[24px] font-[700] mb-[40px]">COMMUNITY</div>
               <div className="text-[18px] font-[700]  leading-[18px]">
-              <a href="https://twitter.com/wfca_global" className="mb-[40px] block">Twitter</a>
-              <a href="https://twitter.com/ANIMETA_NFT" className="mb-[40px] block">Twitter(NFT)</a>
-              <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[40px] block">Github</a>
+                <a href="https://twitter.com/wfca_global" className="mb-[40px] block">Twitter</a>
+                <a href="https://twitter.com/ANIMETA_NFT" className="mb-[40px] block">Twitter(NFT)</a>
+                <a href="https://github.com/ANIMETA-GLOBAL" className="mb-[40px] block">Github</a>
               </div>
             </div>
 
@@ -392,9 +423,9 @@ export default function Home() {
                 LINKS & Partners
               </div>
               <div className="text-[18px] font-[700] leading-[18px]">
-              <a href="https://dde-fintech.com/" className="mb-[40px] block">DDE FINTECH HOLDING</a>
-              <a href="http://99hln.com/" className="mb-[40px] block">99 Hualian</a>
-              <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[40px] block">Etherscan</a>
+                <a href="https://dde-fintech.com/" className="mb-[40px] block">DDE FINTECH HOLDING</a>
+                <a href="http://99hln.com/" className="mb-[40px] block">99 Hualian</a>
+                <a href="https://etherscan.io/token/0xae4533189C7281501F04bA4b7c37e3ADeD402902" className="mb-[40px] block">Etherscan</a>
               </div>
             </div>
           </div>
