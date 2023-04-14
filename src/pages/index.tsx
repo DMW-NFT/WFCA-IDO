@@ -24,7 +24,7 @@ import {
 } from "video-react";
 import "video-react/dist/video-react.css"; // import css
 
-export default function Home() {
+export default function Ido() {
   return (
     <div className="w-full h-auto bg-[#0f103c] ">
       {/* header */}
