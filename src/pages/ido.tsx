@@ -19,6 +19,449 @@ import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { ethers } from "ethers";
 import Head from "next/head";
 export default function Home() {
+  const IDO_ABI = [
+    {
+      inputs: [
+        {
+          components: [
+            {
+              internalType: "uint256",
+              name: "supply",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "balance",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "minimum",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startBlock",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "endBlock",
+              type: "uint256",
+            },
+          ],
+          internalType: "struct WFCAClaim.PoolInfo",
+          name: "_newInfo",
+          type: "tuple",
+        },
+      ],
+      name: "add",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      stateMutability: "nonpayable",
+      type: "constructor",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "address",
+          name: "previousAdmin",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "newAdmin",
+          type: "address",
+        },
+      ],
+      name: "AdminChanged",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "beacon",
+          type: "address",
+        },
+      ],
+      name: "BeaconUpgraded",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "poolId",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "num",
+          type: "uint256",
+        },
+        {
+          internalType: "address",
+          name: "inviter",
+          type: "address",
+        },
+      ],
+      name: "claim",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "uint256",
+          name: "poolId",
+          type: "uint256",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "claimer",
+          type: "address",
+        },
+        {
+          indexed: false,
+          internalType: "uint256",
+          name: "num",
+          type: "uint256",
+        },
+        {
+          indexed: false,
+          internalType: "address",
+          name: "inviter",
+          type: "address",
+        },
+      ],
+      name: "Claimed",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "initialize",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: false,
+          internalType: "uint8",
+          name: "version",
+          type: "uint8",
+        },
+      ],
+      name: "Initialized",
+      type: "event",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "previousOwner",
+          type: "address",
+        },
+        {
+          indexed: true,
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "OwnershipTransferred",
+      type: "event",
+    },
+    {
+      inputs: [],
+      name: "renounceOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newOwner",
+          type: "address",
+        },
+      ],
+      name: "transferOwnership",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "poolId",
+          type: "uint256",
+        },
+        {
+          components: [
+            {
+              internalType: "uint256",
+              name: "supply",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "price",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "balance",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "minimum",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "startBlock",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "endBlock",
+              type: "uint256",
+            },
+          ],
+          internalType: "struct WFCAClaim.PoolInfo",
+          name: "_newInfo",
+          type: "tuple",
+        },
+      ],
+      name: "updatePool",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      anonymous: false,
+      inputs: [
+        {
+          indexed: true,
+          internalType: "address",
+          name: "implementation",
+          type: "address",
+        },
+      ],
+      name: "Upgraded",
+      type: "event",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newImplementation",
+          type: "address",
+        },
+      ],
+      name: "upgradeTo",
+      outputs: [],
+      stateMutability: "nonpayable",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "newImplementation",
+          type: "address",
+        },
+        {
+          internalType: "bytes",
+          name: "data",
+          type: "bytes",
+        },
+      ],
+      name: "upgradeToAndCall",
+      outputs: [],
+      stateMutability: "payable",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "getBlockNumbers",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "user",
+          type: "address",
+        },
+      ],
+      name: "invitedBy",
+      outputs: [
+        {
+          internalType: "address",
+          name: "inviter",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "MNDHolder",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "owner",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "",
+          type: "uint256",
+        },
+      ],
+      name: "poolInfo",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "supply",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "price",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "balance",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "minimum",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "startBlock",
+          type: "uint256",
+        },
+        {
+          internalType: "uint256",
+          name: "endBlock",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "proxiableUUID",
+      outputs: [
+        {
+          internalType: "bytes32",
+          name: "",
+          type: "bytes32",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [
+        {
+          internalType: "address",
+          name: "user",
+          type: "address",
+        },
+      ],
+      name: "score",
+      outputs: [
+        {
+          internalType: "uint256",
+          name: "score",
+          type: "uint256",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+    {
+      inputs: [],
+      name: "USDTHolder",
+      outputs: [
+        {
+          internalType: "address",
+          name: "",
+          type: "address",
+        },
+      ],
+      stateMutability: "view",
+      type: "function",
+    },
+  ];
   const connectionStatus = useConnectionStatus();
   const wallet = useWallet();
   const [currentWalletAddress, setCurrentWalletAddress] = useState<string>("");
@@ -27,19 +470,25 @@ export default function Home() {
   const [inviter, setInviter] = useState(null);
   const [blindAddress, setBlindAddress] = useState("");
   const [receiptAddress, setReceiptAddress] = useState<string>("");
-  const { contract } = useContract(
-    "0x2f86925b0c14662aeCab37AF509A27Fa34fa59DC"
-  );
+
   const [claimAmount, setClaimAmount] = useState(0);
   const [canClaim, setCanClaim] = useState(false);
   const [inviteeHistory, setInviteeHistory] = useState<any>([]);
-  const { mutateAsync: claimToken, isLoading, error } = useClaimToken(contract);
+
   const [claimHistory, setClaimHistory] = useState<any>([]);
   const [totalSupply, setTotalSupply] = useState("0");
   const [usdtAllowance, setUsdtAllowance] = useState("0");
   const [usdtBalance, setUsdtBalance] = useState("0");
   const [wfcaBalance, setwfcaBalance] = useState("0");
-
+  const [toApprove, setToApprove] = useState(false);
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://data-seed-prebsc-2-s2.binance.org:8545"
+  );
+  const IDO_CONTRACT = new ethers.Contract(
+    "0x0E149435c644Dd09015Fd91D048E69EFf9D04722",
+    IDO_ABI,
+    provider
+  );
   wallet?.addListener("change", (data) => {
     wallet.disconnect();
 
@@ -52,40 +501,39 @@ export default function Home() {
     setCurrentWalletAddress("");
   });
 
-  const getAddressInviter = () => {
-    fetch(
-      `https://idoapi.wfca.io/api/getRelationship?wallet=${currentWalletAddress}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setInviter(res.data.inviter);
-        console.log(res.data.inviter);
-      });
+  const getAddressInviter = async () => {
+    const inviter = await IDO_CONTRACT.invitedBy(currentWalletAddress);
+    console.log("inviter", inviter);
+    setInviter(inviter);
+    setBlindAddress(inviter);
   };
 
-  const getConfirmedSignature = () => {
-    if (!(blindAddress && ethers.utils.isAddress(blindAddress))) {
-      alert("请输入合法的钱包地址");
-      return;
-    }
+  // const getConfirmedSignature = () => {
+  //   if (!(blindAddress && ethers.utils.isAddress(blindAddress))) {
+  //     alert("请输入合法的钱包地址");
+  //     return;
+  //   }
 
-    setInviteeSignStatus("Signing...");
-    const message = `{"inviter":"${blindAddress}","invitee":"${currentWalletAddress}"}`;
+  //   setInviteeSignStatus("Signing...");
+  //   const message = `{"inviter":"${blindAddress}","invitee":"${currentWalletAddress}"}`;
 
-    wallet
-      ?.signMessage(message)
-      .then((res) => {
-        console.log(message, res);
-        res && sendInvite({ message: message, signature: res });
-        setInviteeSignStatus("waitForSign");
-      })
-      .catch((err) => {
-        console.log(err);
-        setInviteeSignStatus("waitForSign");
-      });
-  };
+  //   wallet
+  //     ?.signMessage(message)
+  //     .then((res) => {
+  //       console.log(message, res);
+  //       res && sendInvite({ message: message, signature: res });
+  //       setInviteeSignStatus("waitForSign");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       setInviteeSignStatus("waitForSign");
+  //     });
+  // };
   const checkClaimInput = () => {
-    if (!(receiptAddress && ethers.utils.isAddress(receiptAddress))) {
+    if (
+      !(receiptAddress && ethers.utils.isAddress(receiptAddress)) &&
+      !inviter
+    ) {
       alert("请输入合法钱包地址");
       return;
     }
@@ -95,6 +543,12 @@ export default function Home() {
       setClaimAmount(10);
       return;
     }
+
+    if (claimAmount * 10 > Number(usdtAllowance)) {
+      setToApprove(true);
+      return;
+    }
+
     setCanClaim(true);
   };
 
@@ -114,7 +568,7 @@ export default function Home() {
   const getWFCABalance = async () => {
     const sdk = new ThirdwebSDK("binance-testnet");
     const contract = await sdk.getContract(
-      "0x2f86925b0c14662aeCab37AF509A27Fa34fa59DC"
+      "0x3a6A2F396fa52d2e2F127c26F8df738AF151B300"
     );
     const balance = await contract.erc20.balanceOf(currentWalletAddress);
     const supply = await contract.erc20.totalSupply();
@@ -132,7 +586,7 @@ export default function Home() {
     const balance = await contract.erc20.balanceOf(currentWalletAddress);
     const allowance = await contract.erc20.allowanceOf(
       currentWalletAddress,
-      "0x2f86925b0c14662aeCab37AF509A27Fa34fa59DC"
+      "0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
     );
 
     console.log("erc20 balance:", balance);
@@ -162,23 +616,16 @@ export default function Home() {
   const getWfcaTotalSupply = async () => {
     const sdk = new ThirdwebSDK("binance-testnet");
     const contract = await sdk.getContract(
-      "0x2f86925b0c14662aeCab37AF509A27Fa34fa59DC"
+      "0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
     );
     const supply = await contract.erc20.totalSupply();
     setTotalSupply(supply.displayValue);
   };
-  const getInviteeHistory = () => {
-    fetch(
-      `https://idoapi.wfca.io/api/getRechargeRecord?wallet=${currentWalletAddress}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        if (res.message === "ok") {
-          setInviteeHistory(res.data);
-          console.log(res.data);
-        }
-      });
+  const getInviteeHistory = async () => {
+    const score = await IDO_CONTRACT.score(currentWalletAddress);
+    const lv = 6;
+    console.log("score", parseInt(score));
+    setInviteeHistory({ quorum: parseInt(score), level: lv });
   };
 
   useEffect(() => {
@@ -249,29 +696,14 @@ export default function Home() {
             </div>
 
             {connectionStatus === "connected" &&
-              (inviter ? (
+              !(inviter == "0x0000000000000000000000000000000000000000") && (
                 <div className="w-full">
                   <p className=" text-sm text-white">邀请人:</p>
                   <p className=" text-sm text-white max-w-screen overflow-auto">
                     {inviter}
                   </p>
                 </div>
-              ) : (
-                <div className="w-full">
-                  <label
-                    className="ds-btn ds-btn-outline ds-btn-secondary"
-                    htmlFor="my-modal-7"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-                      color: "white",
-                      borderWidth: "3px",
-                      borderColor: "white",
-                    }}>
-                    绑定邀请人
-                  </label>
-                </div>
-              ))}
+              )}
 
             {connectionStatus === "connected" ? (
               <div className="w-full">
@@ -320,10 +752,12 @@ export default function Home() {
                 </div>
                 <div className="w-1/2 pl-2">
                   <p className=" text-sm text-white">您的等级:</p>
-                  <p className=" text-2xl text-white">Lv 5</p>
+                  <p className=" text-2xl text-white">
+                    Lv {inviteeHistory ? inviteeHistory.level : 6}
+                  </p>
                   <p className=" text-sm text-white">有效邀请人数:</p>
                   <p className=" text-2xl text-white">
-                    {inviteeHistory ? inviteeHistory.total : 0}
+                    {inviteeHistory ? inviteeHistory.quorum : 0}
                   </p>
                   <p className=" text-sm text-white">奖励池:</p>
                   <p className=" text-2xl text-white">
@@ -345,9 +779,7 @@ export default function Home() {
                   <p className=" text-2xl text-white">
                     {claimHistory
                       ? claimHistory.sumQuantityClaimed &&
-                        ethers.utils.formatEther(
-                          claimHistory.sumQuantityClaimed
-                        )
+                        claimHistory.sumQuantityClaimed
                       : 0}{" "}
                     WFCA
                   </p>
@@ -391,9 +823,9 @@ export default function Home() {
             <p>5等级NFT可兑换原 价值五千人民币。</p>
             <p>4等级NFT可兑换原 价值一万人民币。</p>
             <p>3等级NFT可兑换原 价值两万人民币。</p>
-            <p>2等级 NFT可兑换原 价值四万人民币</p>
-            <p>1等级 NFT可兑换原 价值六万人民币。</p>
-            <p>钻石由日本企业砖石矿提供。</p>
+            <p>2等级NFT可兑换原 价值四万人民币</p>
+            <p>1等级NFT可兑换原 价值六万人民币。</p>
+            <p>钻石由日本企业钻石矿提供。</p>
             <p>代币和NFT奖励将在该轮IDO结束后三个工作日内空投至钱包中</p>
           </div>
         </div>
@@ -501,22 +933,24 @@ export default function Home() {
           </label>
           <h3 className="text-lg font-bold">Claim Token</h3>
           <div className="w-full flex flex-col">
-            <div className="ds-form-control w-full max-w-xs">
-              <label className="ds-label">
-                <span className="ds-label-text text-white text-xl">
-                  接收地址:
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="0x123..."
-                className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
-                onChange={(e) => {
-                  setReceiptAddress(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
+            {inviter == "0x0000000000000000000000000000000000000000" && (
+              <div className="ds-form-control w-full max-w-xs">
+                <label className="ds-label">
+                  <span className="ds-label-text text-white text-xl">
+                    邀请人地址:
+                  </span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="0x123..."
+                  className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
+                  onChange={(e) => {
+                    setBlindAddress(e.target.value);
+                    console.log(e.target.value);
+                  }}
+                />
+              </div>
+            )}
             <div className="ds-form-control w-full max-w-xs">
               <label className="ds-label">
                 <span className="ds-label-text text-white text-xl">
@@ -535,7 +969,7 @@ export default function Home() {
               />
               <label className="ds-label">
                 <span className="ds-label-text-alt text-white text-xl">
-                  需要支付:{claimAmount * 100} USDT
+                  需要支付:{claimAmount * 10} USDT
                 </span>
                 {/* <span className="ds-label-text-alt">Bottom Right label</span> */}
               </label>
@@ -547,14 +981,15 @@ export default function Home() {
           <div className="w-full flex justify-center">
             {canClaim ? (
               <Web3Button
-                contractAddress={"0x2f86925b0c14662aeCab37AF509A27Fa34fa59DC"}
-                action={() =>
-                  claimToken({
-                    to: receiptAddress, // Use useAddress hook to get current wallet address
-                    amount: claimAmount, // Amount of token to claim
-                    checkERC20Allowance: true,
-                  })
-                }
+                contractAddress="0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
+                contractAbi={IDO_ABI}
+                action={(contract) => {
+                  contract
+                    .call("claim", [0, claimAmount, blindAddress])
+                    .then((res) => console.log(res))
+                    .catch((err) => console.log(err));
+                  setCanClaim(false);
+                }}
                 style={{
                   alignSelf: "center",
                   backgroundImage:
@@ -566,57 +1001,37 @@ export default function Home() {
                 Claim Token
               </Web3Button>
             ) : (
-              <button
-                className="ds-btn ds-btn-active ds-btn-ghost"
-                onClick={checkClaimInput}>
-                Chek
-              </button>
+              <div>
+                <button
+                  className="ds-btn ds-btn-active ds-btn-ghost"
+                  onClick={checkClaimInput}>
+                  Chek
+                </button>
+                {toApprove && (
+                  <Web3Button
+                    contractAddress="0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A"
+                    action={(contract) => {
+                      // Logic to execute when clicked
+                      contract.erc20
+                        .setAllowance(
+                          "0x0E149435c644Dd09015Fd91D048E69EFf9D04722",
+                          claimAmount * 10
+                        )
+                        .then((res) => checkClaimInput());
+                    }}
+                    style={{
+                      alignSelf: "center",
+                      backgroundImage:
+                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                      color: "white",
+                      borderWidth: "3px",
+                      borderColor: "white",
+                    }}>
+                    批准许可额度
+                  </Web3Button>
+                )}
+              </div>
             )}
-          </div>
-        </div>
-      </div>
-      <input type="checkbox" id="my-modal-7" className="ds-modal-toggle " />
-      <div className="ds-modal">
-        <div className="ds-modal-box relative bg-opacity-25 backdrop-blur-xl lg:h-[300px] bg-white">
-          <label
-            htmlFor="my-modal-7"
-            className="ds-btn ds-btn-sm ds-btn-circle absolute right-2 top-2 bg-pink-500 border-white">
-            ✕
-          </label>
-          <h3 className="text-lg font-bold">绑定邀请人</h3>
-          <div className="w-full flex flex-col">
-            <div className="ds-form-control w-full max-w-xs">
-              <label className="ds-label">
-                <span className="ds-label-text text-white text-xl">
-                  邀请人地址:
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="0x123..."
-                className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
-                onChange={(e) => {
-                  setBlindAddress(e.target.value);
-                  console.log(e.target.value);
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="w-full flex justify-center mt-10">
-            <button
-              className="ds-btn ds-btn-active ds-btn-ghost"
-              onClick={getConfirmedSignature}
-              style={{
-                alignSelf: "center",
-                backgroundImage:
-                  "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-                color: "white",
-                borderWidth: "3px",
-                borderColor: "white",
-              }}>
-              确定
-            </button>
           </div>
         </div>
       </div>
