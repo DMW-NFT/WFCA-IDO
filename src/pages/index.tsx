@@ -3,8 +3,8 @@ import { Inter } from "next/font/google";
 import bannar from "../../public/image/bgheroreal.png";
 import Group45 from "../../public/image/Group45.png";
 import Group46 from "../../public/image/Group46.png";
-import Mask3 from "../../public/image/Mask3.png";
-import Mask2 from "../../public/image/Mask2.png";
+import Mask3 from "../../public/image/mark_three.jpg";
+import Mask2 from "../../public/image/mark_two.jpg";
 import Mask1 from "../../public/image/Mask1.png";
 import decentralized from "../../public/image/img-decentralized-finance 1.png";
 import dmw from "../../public/image/Dmw2.png";
@@ -14,6 +14,7 @@ import iconbook from "../../public/image/iconbook.png";
 import iconroom from "../../public/image/iconroom.png";
 import icontips from "../../public/image/icontips.png";
 import metaverse from "../../public/image/img-metaverse 1.png";
+import bigbannar from "../../public/image/bigbannar.png";
 import {
   Player,
   ControlBar,
@@ -69,7 +70,7 @@ export default function Home() {
         style={style.bannar}>
         {/* <div className="h-[950px] absolute z-0 backdrop-brightness-50 "></div> */}
         <div className=" lg:pt-[210px] xl:pt-[260px] 2xl:pt-[310px] z-10 px-[13%]">
-          <div className="text-[#D7F3FC] lg:text-[40px] lg:mb-[40px] w-auto  bg-black bg-opacity-20 backdrop-blur-sm p-4">
+          <div className="text-[#D7F3FC] lg:text-[40px] lg:mb-[40px] w-[auto]  inline-block bg-black bg-opacity-20 backdrop-blur-sm p-4">
             WFCA Infrastructure
           </div>
           <div className="text-[#D7F3FC] lg:text-[24px]  bg-black bg-opacity-20 backdrop-blur-sm  p-4">
@@ -127,7 +128,7 @@ export default function Home() {
           进入
         </div>
 
-        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[140px] px-[20%] z-10">
+        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[200px] px-[20%] z-10">
           <div
             className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
             onClick={() => {
@@ -172,11 +173,11 @@ export default function Home() {
         </div>
 
         {/* 视频 */}
-        <div className="h-[360px]  text-white flex flex-col-reverse lg:flex-row lg:w-full  items-center mb-[60px] lg:mb-[107px] z-0">
+        <div className="h-[auto] lg:h-[360px] text-white flex flex-col-reverse lg:flex-row lg:w-full  items-center mb-[60px] lg:mb-[200px] z-0">
           {/* <video src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
          className="h-[360px] w-[640px] object-cover mr-[40px]"
         ></video> */}
-          <div className=" lg:w-[675px] w-full  mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
+          <div className=" flex-[2] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
             <Player
               autoPlay={true}
               playsInline={true}
@@ -193,9 +194,9 @@ export default function Home() {
             </Player>
           </div>
 
-          <div className="h-[360px] w-full px-[20%] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center flex lg:hidden">
+          <div className="bg-[#0f103c] h-[auto] w-[400px]  mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center flex lg:hidden">
             <Player
-              autoPlay={true}
+              autoPlay={false}
               playsInline={true}
               src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
               poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg">
@@ -214,11 +215,11 @@ export default function Home() {
           src={bannar}
           alt="Album"
         /> */}
-          <div>
-            <div className="text-[20px] lg:text-[36px] font-[700] leading-[30px] mb-[40px] text-center ">
+          <div className=" flex-1">
+            <div className="mb-[20px] text-[20px] lg:text-[36px] font-[700] leading-[30px] lg:mb-[40px] text-center ">
               我们的使命
             </div>
-            <div className="w-[72%] lg:max-w-[720px] text-[14px] leading-[24px] mx-[auto]">
+            <div className="w-full text-center  text-[14px] leading-[40px] mx-[auto]">
               通过世界最先端的区块链技术
               <br />
               以WFCA为工具，达到利益最大化。
@@ -228,22 +229,22 @@ export default function Home() {
 
         {/* 缩放图标 */}
         <div
-          className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto lg:overflow-hidden "
+          className=" h-[auto]   lg:pl-[0] flex justify-between w-full  mb-[60px] lg:mb-[186px] overflow-auto "
           style={{ showsHorizontalScrollIndicator: false }}>
           <Image
             src={Mask1}
             alt="Album"
-            className="ml-[20px] lg:ml-[0] mr-[20px] lg:mr-[0] w-[250px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%]"
+            className="ml-[20px] lg:ml-[0] mr-[20px] lg:mr-[0] w-[240px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%] py-[5px] box-border"
           />
           <Image
             src={Mask2}
             alt="Album"
-            className="mr-[20px] lg:mr-[0] w-[250px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%]"
+            className="mr-[20px] lg:mr-[0] w-[240px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%]"
           />
           <Image
             src={Mask3}
             alt="Album"
-            className="mr-[20px] lg:mr-[0] w-[250px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%]"
+            className="mr-[20px] lg:mr-[0] w-[240px] lg:w-1/4 lg:hover:transform  lg:hover:scale-[120%]"
           />
         </div>
 
@@ -320,49 +321,7 @@ export default function Home() {
         </div>
 
         <Image src={jindu} alt="Album" className="mb-[40px]" />
-
-        <div className="flex flex-col lg:flex-row justify-between text-white w-full  mb-[60px] lg:mb-[140px]">
-          <div className="flex flex-col items-center mb-[20px] lg:mb-[0]">
-            <div>Blockchain</div>
-            <img
-              className="w-[220px] h-[64px] mt-[10px] lg:mt-[40px]"
-              src="https://www.wfca.io/assets/img/logo-ethereum.svg"
-              alt=""
-            />
-          </div>
-
-          <div className="flex flex-col items-center mb-[20px] lg:mb-[0]">
-            <div className="mb-[20px] lg:mb-[40px]">Team</div>
-            <img
-              className="mb-[20px] lg:mb-[40px] max-w-[60%] "
-              src="https://www.wfca.io/assets/img/logo-dde.png"
-              alt=""
-            />
-            <img
-              className="max-w-[60%]"
-              src="https://www.wfca.io/assets/img/logo-99hualian.svg"
-              alt=""
-            />
-          </div>
-
-          <div className="flex flex-col items-center mb-[20px] lg:mb-[0]">
-            <div className="mb-[20px] lg:mb-[40px]">Exchange</div>
-            <div className="w-[220px] max-w-[60%] h-[55px] bg-[#003469] text-white leading-[55px] text-center font-[700]">
-              Coming Soon
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center">
-            <div className="mb-[20px] lg:mb-[40px]">Explorer</div>
-            <div className="bg-[#fff] px-[10px]">
-              <img
-                className="w-[200px] h-[64px] max-w-[60%] mx-[auto]"
-                src="https://www.wfca.io/assets/img/logo-etherscan.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
+        <Image src={bigbannar} alt="Album" className="mb-[40px]" />
       </div>
 
       <div className="block lg:hidden text-white">
@@ -428,8 +387,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ flex: 3 }}>
-            <div className="text-[12px] font-[700] mb-[20px]">
+          <div style={{ flex: 2 }}>
+            <div className="text-[10
+              px] mb-[20px]">
               LINKS & Partners
             </div>
             <div className="text-[10px]">
@@ -472,10 +432,10 @@ export default function Home() {
         style={style.bannar2}
         className="w-full h-[300px] text-white pt-[40px] lg:px-40  justify-center hidden lg:flex">
         <div className="w-full  flex justify-between flex-col lg:flex-row">
-          <div className="flex  justify-between flex-1 mr-[351px]">
+          <div className="flex  justify-between flex-1 mr-[51px]">
             <div>
-              <div className="text-[24px] font-[700] mb-[40px]">PRODUCTS</div>
-              <div className="text-[18px] font-[700]  leading-[18px]">
+              <div className="text-[16px] font-[700] mb-[40px]">PRODUCTS</div>
+              <div className="text-[14px] font-[700]  leading-[18px]">
                 <a
                   href="https://www.animemeta.io/#/home"
                   className="mb-[40px] block">
@@ -491,8 +451,8 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="text-[24px] font-[700] mb-[40px]">COMMUNITY</div>
-              <div className="text-[18px] font-[700]  leading-[18px]">
+              <div className="text-[16px] font-[700] mb-[40px]">COMMUNITY</div>
+              <div className="text-[14px] font-[700]  leading-[18px]">
                 <a
                   href="https://twitter.com/wfca_global"
                   className="mb-[40px] block">
@@ -512,10 +472,10 @@ export default function Home() {
             </div>
 
             <div>
-              <div className="text-[24px] font-[700] mb-[40px]">
+              <div className="text-[16px] font-[700] mb-[40px] flex-[3]">
                 LINKS & Partners
               </div>
-              <div className="text-[18px] font-[700] leading-[18px]">
+              <div className="text-[14px] font-[700] leading-[18px]">
                 <a href="https://dde-fintech.com/" className="mb-[40px] block">
                   DDE FINTECH HOLDING
                 </a>
@@ -569,6 +529,18 @@ const style = {
   },
   bannar2: {
     backgroundImage: `url(${bgfooter.src})`,
+    backgroundSize: "100%,100%",
+  },
+  Mask1: {
+    backgroundImage: `url(${Mask1.src})`,
+    backgroundSize: "100%,100%",
+  },
+  Mask2: {
+    backgroundImage: `url(${Mask2.src})`,
+    backgroundSize: "100%,100%",
+  },
+  Mask3: {
+    backgroundImage: `url(${Mask3.src})`,
     backgroundSize: "100%,100%",
   },
 };

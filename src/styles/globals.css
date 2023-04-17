@@ -5,3 +5,9 @@
 *::-webkit-scrollbar {
   display: none;
 }
+/deep/ .video-react-poster .video-react .video-react-video{
+  background:#0f103c  !important ;
+}
+/deep/.video-react-poster{
+  background:#0f103c;
+}
