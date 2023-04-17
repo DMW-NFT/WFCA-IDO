@@ -616,7 +616,7 @@ export default function Home() {
   const getWfcaTotalSupply = async () => {
     const sdk = new ThirdwebSDK("binance-testnet");
     const contract = await sdk.getContract(
-      "0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
+      "0x3a6A2F396fa52d2e2F127c26F8df738AF151B300"
     );
     const supply = await contract.erc20.totalSupply();
     setTotalSupply(supply.displayValue);
@@ -687,7 +687,7 @@ export default function Home() {
             </div>
             <div className="w-full">
               <div className="ds-badge ds-badge-warning text-white">
-                100 USDT/WFCA
+                10 USDT/WFCA
               </div>
             </div>
             <div className="w-full grow text-center">
@@ -984,11 +984,17 @@ export default function Home() {
                 contractAddress="0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
                 contractAbi={IDO_ABI}
                 action={(contract) => {
+                  setCanClaim(false);
                   contract
                     .call("claim", [0, claimAmount, blindAddress])
-                    .then((res) => console.log(res))
-                    .catch((err) => console.log(err));
-                  setCanClaim(false);
+                    .then((res) => {
+                      console.log(res);
+                      setCanClaim(false);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                      setCanClaim(false);
+                    });
                 }}
                 style={{
                   alignSelf: "center",
