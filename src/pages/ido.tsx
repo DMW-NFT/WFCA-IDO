@@ -485,7 +485,7 @@ export default function Home() {
     "https://data-seed-prebsc-2-s2.binance.org:8545"
   );
   const IDO_CONTRACT = new ethers.Contract(
-    "0x0E149435c644Dd09015Fd91D048E69EFf9D04722",
+    "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B",
     IDO_ABI,
     provider
   );
@@ -507,6 +507,12 @@ export default function Home() {
     setInviter(inviter);
     setBlindAddress(inviter);
   };
+
+  const getCurrentPoolInfo = async () => {
+    const poolInfo = await IDO_CONTRACT.poolInfo(0);
+    console.log("poolInfo", poolInfo);
+    
+  }
 
   // const getConfirmedSignature = () => {
   //   if (!(blindAddress && ethers.utils.isAddress(blindAddress))) {
@@ -586,33 +592,17 @@ export default function Home() {
     const balance = await contract.erc20.balanceOf(currentWalletAddress);
     const allowance = await contract.erc20.allowanceOf(
       currentWalletAddress,
-      "0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
+      "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B"
     );
 
     console.log("erc20 balance:", balance);
     console.log("erc20 allowance:", allowance);
     setUsdtBalance(balance.displayValue);
     setUsdtAllowance(allowance.displayValue);
+    setCanClaim(false)
+    setToApprove(false)
   };
 
-  const sendInvite = (signedMessage: {
-    message: any;
-    signature?: string | undefined;
-  }) => {
-    fetch(
-      `https://idoapi.wfca.io/api/bindRelationship?message=${signedMessage.message}&&signature=${signedMessage.signature}`
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        if (res.message === "ok") {
-          getAddressInviter();
-          alert("绑定成功");
-        } else {
-          alert(res.message);
-        }
-      });
-  };
   const getWfcaTotalSupply = async () => {
     const sdk = new ThirdwebSDK("binance-testnet");
     const contract = await sdk.getContract(
@@ -623,7 +613,23 @@ export default function Home() {
   };
   const getInviteeHistory = async () => {
     const score = await IDO_CONTRACT.score(currentWalletAddress);
-    const lv = 6;
+    let lv = 6;
+    if (score >= 10) {
+      lv = 5;
+    }
+    if (score >= 20) {
+      lv = 4;
+    }
+    if (score >= 30) {
+      lv = 3;
+    }
+    if (score >= 40) {
+      lv = 2;
+    }
+    if (score >= 50) {
+      lv = 1;
+    }
+
     console.log("score", parseInt(score));
     setInviteeHistory({ quorum: parseInt(score), level: lv });
   };
@@ -639,6 +645,7 @@ export default function Home() {
     setInviter("");
     getWfcaTotalSupply();
     if (currentWalletAddress) {
+      getCurrentPoolInfo();
       getAddressInviter();
       getInviteeHistory();
       getClaimedAmount();
@@ -964,6 +971,8 @@ export default function Home() {
                 className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
                 onChange={(e) => {
                   setClaimAmount(Number(e.target.value));
+                  setCanClaim(false);
+                  setToApprove(false);
                   console.log(e.target.value);
                 }}
               />
@@ -981,7 +990,7 @@ export default function Home() {
           <div className="w-full flex justify-center">
             {canClaim ? (
               <Web3Button
-                contractAddress="0x0E149435c644Dd09015Fd91D048E69EFf9D04722"
+                contractAddress="0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B"
                 contractAbi={IDO_ABI}
                 action={(contract) => {
                   setCanClaim(false);
@@ -989,11 +998,15 @@ export default function Home() {
                     .call("claim", [0, claimAmount, blindAddress])
                     .then((res) => {
                       console.log(res);
-                      setCanClaim(false);
                     })
                     .catch((err) => {
                       console.log(err);
+                    })
+                    .finally(() => {
                       setCanClaim(false);
+                      getUSDTInfo();
+                      getWFCABalance();
+                      getWfcaTotalSupply();
                     });
                 }}
                 style={{
@@ -1008,11 +1021,13 @@ export default function Home() {
               </Web3Button>
             ) : (
               <div>
-                <button
-                  className="ds-btn ds-btn-active ds-btn-ghost"
-                  onClick={checkClaimInput}>
-                  Chek
-                </button>
+                {!toApprove && (
+                  <button
+                    className="ds-btn ds-btn-active ds-btn-ghost"
+                    onClick={checkClaimInput}>
+                    Chek
+                  </button>
+                )}
                 {toApprove && (
                   <Web3Button
                     contractAddress="0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A"
@@ -1020,10 +1035,20 @@ export default function Home() {
                       // Logic to execute when clicked
                       contract.erc20
                         .setAllowance(
-                          "0x0E149435c644Dd09015Fd91D048E69EFf9D04722",
+                          "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B",
                           claimAmount * 10
                         )
-                        .then((res) => checkClaimInput());
+                        .then((res) => {
+                          console.log(res);
+                          setCanClaim(false);
+                          setToApprove(false);
+                        })
+                        .finally(() => {
+                          getUSDTInfo();
+                          setCanClaim(false);
+                          setToApprove(false);
+                          checkClaimInput();
+                        });
                     }}
                     style={{
                       alignSelf: "center",

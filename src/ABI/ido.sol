@@ -7,8 +7,9 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/interfaces/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 
-contract WFCAClaim is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgradeable {
     using SafeMath for uint256;
     struct PoolInfo {
         uint256 supply;
@@ -52,13 +53,13 @@ contract WFCAClaim is Initializable, OwnableUpgradeable, UUPSUpgradeable {
         tokenWFCA = IERC20(0x3a6A2F396fa52d2e2F127c26F8df738AF151B300);
         tokenMND = IERC20(0x713f11D6c2aA207305336F0bA5Dc63E4D7Ccb74B);
         tokenUSDT = IERC20(0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A);
-        toekn1155Diamond = IERC1155(0xB92dA5C274C0953aF6a05064169274CD7Ae90539);
+        toekn1155Diamond = IERC1155(0x939Fc06Dc059bc5CE94a67C7DAdcf29044802474);
         swapRouterV2 = ISwapRouterV2(
             0xDE2Db97D54a3c3B008a097B2260633E6cA7DB1AF
         );
         MNDHolder = 0xe403E8011CdB251c12ccF6911F44D160699CCC3c;
         USDTHolder = 0xe403E8011CdB251c12ccF6911F44D160699CCC3c;
-        score[0xe403E8011CdB251c12ccF6911F44D160699CCC3c] = 50;
+        score[0xe403E8011CdB251c12ccF6911F44D160699CCC3c] = 49;
     }
 
     function _authorizeUpgrade(
