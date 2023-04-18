@@ -481,6 +481,8 @@ export default function Home() {
   const [usdtBalance, setUsdtBalance] = useState("0");
   const [wfcaBalance, setwfcaBalance] = useState("0");
   const [toApprove, setToApprove] = useState(false);
+  const [poolInfo, setPoolInfo] = useState();
+
   const provider = new ethers.providers.JsonRpcProvider(
     "https://data-seed-prebsc-2-s2.binance.org:8545"
   );
@@ -511,8 +513,8 @@ export default function Home() {
   const getCurrentPoolInfo = async () => {
     const poolInfo = await IDO_CONTRACT.poolInfo(0);
     console.log("poolInfo", poolInfo);
-    
-  }
+    setPoolInfo(poolInfo);
+  };
 
   // const getConfirmedSignature = () => {
   //   if (!(blindAddress && ethers.utils.isAddress(blindAddress))) {
@@ -599,8 +601,8 @@ export default function Home() {
     console.log("erc20 allowance:", allowance);
     setUsdtBalance(balance.displayValue);
     setUsdtAllowance(allowance.displayValue);
-    setCanClaim(false)
-    setToApprove(false)
+    setCanClaim(false);
+    setToApprove(false);
   };
 
   const getWfcaTotalSupply = async () => {
@@ -774,7 +776,7 @@ export default function Home() {
                           inviteeHistory.sumQuantityClaimed
                         )
                       : 0}{" "}
-                    WFCA
+                    MND
                   </p>
                 </div>
               </div>
@@ -801,12 +803,28 @@ export default function Home() {
               <p className=" text-sm text-white">IDO 进度:</p>
               <progress
                 className="ds-progress ds-progress-secondary  w-full"
-                value="10"
+                value={(
+                  (1 -
+                    parseInt(poolInfo.balance._hex, 16) /
+                      parseInt(poolInfo.supply._hex, 16)) *
+                  100
+                ).toFixed(2)}
                 max="100"></progress>
               <div className="w-full flex flex-row justify-between">
-                <p className=" text-sm text-white ">0.001%</p>
                 <p className=" text-sm text-white ">
-                  {Number(totalSupply).toFixed(2)}/100000000 WFCA
+                  {(
+                    (1 -
+                      parseInt(poolInfo.balance._hex, 16) /
+                        parseInt(poolInfo.supply._hex, 16)) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </p>
+                <p className=" text-sm text-white ">
+                  {poolInfo &&
+                    parseInt(poolInfo.supply._hex, 16) -
+                      parseInt(poolInfo.balance._hex, 16)}
+                  /{poolInfo && parseInt(poolInfo.supply._hex, 16)} WFCA
                 </p>
               </div>
             </div>
