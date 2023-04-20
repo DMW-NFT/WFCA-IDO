@@ -4,464 +4,20 @@ import bannar from "../../public/image/bannar2.png";
 import purchase from "../../public/image/purchase.png";
 import btn from "../../public/image/btn.png";
 import border from "../../public/image/border.png";
+import ERC20ABI from "../ABI/ERC20ABI.json";
+import IDO_ABI from "../ABI/IDOABI.json";
+import LOCKABI from "../ABI/LOCKABI.json";
 
 import {
   ConnectWallet,
   useConnectionStatus,
   useWallet,
-  useClaimToken,
-  useContract,
-  Web3Button,
-  useTokenBalance,
 } from "@thirdweb-dev/react";
 import { useEffect, useState } from "react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { ethers } from "ethers";
 import Head from "next/head";
 export default function Home() {
-  const IDO_ABI = [
-    {
-      inputs: [
-        {
-          components: [
-            {
-              internalType: "uint256",
-              name: "supply",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "price",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "balance",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "minimum",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "startBlock",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "endBlock",
-              type: "uint256",
-            },
-          ],
-          internalType: "struct WFCAClaim.PoolInfo",
-          name: "_newInfo",
-          type: "tuple",
-        },
-      ],
-      name: "add",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      stateMutability: "nonpayable",
-      type: "constructor",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: "address",
-          name: "previousAdmin",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "address",
-          name: "newAdmin",
-          type: "address",
-        },
-      ],
-      name: "AdminChanged",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "beacon",
-          type: "address",
-        },
-      ],
-      name: "BeaconUpgraded",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "poolId",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "num",
-          type: "uint256",
-        },
-        {
-          internalType: "address",
-          name: "inviter",
-          type: "address",
-        },
-      ],
-      name: "claim",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "uint256",
-          name: "poolId",
-          type: "uint256",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "claimer",
-          type: "address",
-        },
-        {
-          indexed: false,
-          internalType: "uint256",
-          name: "num",
-          type: "uint256",
-        },
-        {
-          indexed: false,
-          internalType: "address",
-          name: "inviter",
-          type: "address",
-        },
-      ],
-      name: "Claimed",
-      type: "event",
-    },
-    {
-      inputs: [],
-      name: "initialize",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: false,
-          internalType: "uint8",
-          name: "version",
-          type: "uint8",
-        },
-      ],
-      name: "Initialized",
-      type: "event",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "previousOwner",
-          type: "address",
-        },
-        {
-          indexed: true,
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "OwnershipTransferred",
-      type: "event",
-    },
-    {
-      inputs: [],
-      name: "renounceOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "newOwner",
-          type: "address",
-        },
-      ],
-      name: "transferOwnership",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "poolId",
-          type: "uint256",
-        },
-        {
-          components: [
-            {
-              internalType: "uint256",
-              name: "supply",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "price",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "balance",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "minimum",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "startBlock",
-              type: "uint256",
-            },
-            {
-              internalType: "uint256",
-              name: "endBlock",
-              type: "uint256",
-            },
-          ],
-          internalType: "struct WFCAClaim.PoolInfo",
-          name: "_newInfo",
-          type: "tuple",
-        },
-      ],
-      name: "updatePool",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      anonymous: false,
-      inputs: [
-        {
-          indexed: true,
-          internalType: "address",
-          name: "implementation",
-          type: "address",
-        },
-      ],
-      name: "Upgraded",
-      type: "event",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "newImplementation",
-          type: "address",
-        },
-      ],
-      name: "upgradeTo",
-      outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "newImplementation",
-          type: "address",
-        },
-        {
-          internalType: "bytes",
-          name: "data",
-          type: "bytes",
-        },
-      ],
-      name: "upgradeToAndCall",
-      outputs: [],
-      stateMutability: "payable",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "getBlockNumbers",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "user",
-          type: "address",
-        },
-      ],
-      name: "invitedBy",
-      outputs: [
-        {
-          internalType: "address",
-          name: "inviter",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "MNDHolder",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "owner",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "uint256",
-          name: "",
-          type: "uint256",
-        },
-      ],
-      name: "poolInfo",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "supply",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "price",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "balance",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "minimum",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "startBlock",
-          type: "uint256",
-        },
-        {
-          internalType: "uint256",
-          name: "endBlock",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "proxiableUUID",
-      outputs: [
-        {
-          internalType: "bytes32",
-          name: "",
-          type: "bytes32",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [
-        {
-          internalType: "address",
-          name: "user",
-          type: "address",
-        },
-      ],
-      name: "score",
-      outputs: [
-        {
-          internalType: "uint256",
-          name: "score",
-          type: "uint256",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-    {
-      inputs: [],
-      name: "USDTHolder",
-      outputs: [
-        {
-          internalType: "address",
-          name: "",
-          type: "address",
-        },
-      ],
-      stateMutability: "view",
-      type: "function",
-    },
-  ];
   const connectionStatus = useConnectionStatus();
   const wallet = useWallet();
   const [currentWalletAddress, setCurrentWalletAddress] = useState<string>("");
@@ -470,11 +26,9 @@ export default function Home() {
   const [inviter, setInviter] = useState(null);
   const [blindAddress, setBlindAddress] = useState("");
   const [receiptAddress, setReceiptAddress] = useState<string>("");
-
-  const [claimAmount, setClaimAmount] = useState(0);
+  const [claimAmount, setClaimAmount] = useState(" ");
   const [canClaim, setCanClaim] = useState(false);
   const [inviteeHistory, setInviteeHistory] = useState<any>([]);
-
   const [claimHistory, setClaimHistory] = useState<any>([]);
   const [totalSupply, setTotalSupply] = useState("0");
   const [usdtAllowance, setUsdtAllowance] = useState("0");
@@ -483,37 +37,52 @@ export default function Home() {
   const [toApprove, setToApprove] = useState(false);
   const [poolInfo, setPoolInfo] = useState();
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    "https://data-seed-prebsc-2-s2.binance.org:8545"
-  );
-  const IDO_CONTRACT = new ethers.Contract(
-    "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B",
-    IDO_ABI,
-    provider
-  );
-  wallet?.addListener("change", (data) => {
-    wallet.disconnect();
+  const [IDO_CONTRACT, setIDO_CONTRACT] = useState<any>(null);
+  const [USDT_CONTRACT, setUSDT_CONTRACT] = useState<any>(null);
+  const [WFCA_CONTRACT, setWFCA_CONTRACT] = useState<any>(null);
+  const [LOCK_CONTRACT, setLOCK_CONTRACT] = useState<any>(null);
+  const [currtChainId, setCurrtChainId] = useState("");
+  const [chainIdListener, setChainIdListener] = useState<any>(false);
+  const [currenReleaseRetio, setCurrenReleaseRetio] = useState(0);
+  const [userReleaseInfo, setUserReleaseInfo] = useState<any>(null);
+  const connectWallet = async () => {
+    // @ts-ignore
+    const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+    setCurrentWalletAddress(accounts[0]);
+  };
 
-    setCurrentWalletAddress(data.address);
-  });
-  wallet?.addListener("connect", (data) => {
-    setCurrentWalletAddress(data.address);
-  });
-  wallet?.addListener("disconnect", () => {
-    setCurrentWalletAddress("");
-  });
+  const getUserInfo = async () => {
+    console.log("currentwallet :", currentWalletAddress);
+    const res = await IDO_CONTRACT.userInfo(currentWalletAddress);
+    const score = parseInt(res.score);
+    console.log("userInfo:", res);
 
-  const getAddressInviter = async () => {
-    const inviter = await IDO_CONTRACT.invitedBy(currentWalletAddress);
-    console.log("inviter", inviter);
-    setInviter(inviter);
-    setBlindAddress(inviter);
+    setInviter(res.inviterBy);
+    setBlindAddress(res.inviterBy);
+    let lv = 6;
+    if (score >= 10) {
+      lv = 5;
+    }
+    if (score >= 20) {
+      lv = 4;
+    }
+    if (score >= 30) {
+      lv = 3;
+    }
+    if (score >= 40) {
+      lv = 2;
+    }
+    if (score >= 50) {
+      lv = 1;
+    }
+
+    setInviteeHistory({ quorum: score, level: lv });
   };
 
   const getCurrentPoolInfo = async () => {
-    const poolInfo = await IDO_CONTRACT.poolInfo(0);
-    console.log("poolInfo", poolInfo);
-    setPoolInfo(poolInfo);
+    const res = await IDO_CONTRACT.poolInfo(0);
+    console.log("poolInfo", res);
+    setPoolInfo(res);
   };
 
   // const getConfirmedSignature = () => {
@@ -546,13 +115,13 @@ export default function Home() {
       return;
     }
 
-    if (claimAmount < 10) {
+    if (Number(claimAmount) < 10) {
       alert("单次兑换最低10 WFCA");
       setClaimAmount(10);
       return;
     }
 
-    if (claimAmount * 10 > Number(usdtAllowance)) {
+    if (Number(claimAmount) * 15 > Number(usdtAllowance)) {
       setToApprove(true);
       return;
     }
@@ -574,87 +143,212 @@ export default function Home() {
   };
 
   const getWFCABalance = async () => {
-    const sdk = new ThirdwebSDK("binance-testnet");
-    const contract = await sdk.getContract(
-      "0x3a6A2F396fa52d2e2F127c26F8df738AF151B300"
-    );
-    const balance = await contract.erc20.balanceOf(currentWalletAddress);
-    const supply = await contract.erc20.totalSupply();
+    const balance = await WFCA_CONTRACT.balanceOf(currentWalletAddress);
+    const supply = await WFCA_CONTRACT.totalSupply();
     console.log("erc20 supply:", supply);
     console.log(balance);
-    setwfcaBalance(balance.displayValue);
-    setTotalSupply(supply.displayValue);
+
+    // setwfcaBalance(balance.displayValue);
+    // setTotalSupply(supply.displayValue);
   };
 
   const getUSDTInfo = async () => {
-    const sdk = new ThirdwebSDK("binance-testnet");
-    const contract = await sdk.getContract(
-      "0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A"
-    );
-    const balance = await contract.erc20.balanceOf(currentWalletAddress);
-    const allowance = await contract.erc20.allowanceOf(
+    const balance = await USDT_CONTRACT.balanceOf(currentWalletAddress);
+    const allowance = await USDT_CONTRACT.allowance(
       currentWalletAddress,
-      "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B"
+      "0xc204202c2840Fd33F84a951b9583462230640B83"
     );
 
     console.log("erc20 balance:", balance);
     console.log("erc20 allowance:", allowance);
-    setUsdtBalance(balance.displayValue);
-    setUsdtAllowance(allowance.displayValue);
+    // setUsdtBalance(balance.displayValue);
+    // setUsdtAllowance(allowance.displayValue);
     setCanClaim(false);
     setToApprove(false);
   };
 
-  const getWfcaTotalSupply = async () => {
-    const sdk = new ThirdwebSDK("binance-testnet");
-    const contract = await sdk.getContract(
-      "0x3a6A2F396fa52d2e2F127c26F8df738AF151B300"
-    );
-    const supply = await contract.erc20.totalSupply();
-    setTotalSupply(supply.displayValue);
-  };
-  const getInviteeHistory = async () => {
-    const score = await IDO_CONTRACT.score(currentWalletAddress);
-    let lv = 6;
-    if (score >= 10) {
-      lv = 5;
+  const addToken = async () => {
+    const tokenAddress = "0x33168a777aA4A7e597CcBf75C3fd21b985B189F2";
+    const tokenSymbol = "WFCA";
+    const tokenDecimals = 18;
+    const tokenImageUri =
+      "https://ipfs.thirdwebcdn.com/ipfs/QmQPcb31Q9rxuTcS2mr1of8J9BVWxRPPC1aBzeXB3oDEb9/WFCA.png";
+    try {
+      // @ts-ignore
+      await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+            tokenImage: tokenImageUri,
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
     }
-    if (score >= 20) {
-      lv = 4;
-    }
-    if (score >= 30) {
-      lv = 3;
-    }
-    if (score >= 40) {
-      lv = 2;
-    }
-    if (score >= 50) {
-      lv = 1;
-    }
-
-    console.log("score", parseInt(score));
-    setInviteeHistory({ quorum: parseInt(score), level: lv });
   };
 
-  useEffect(() => {
-    wallet?.getAddress().then((res) => {
-      console.log(connectionStatus);
-      setCurrentWalletAddress(res);
+  const approveUSDT = () => {
+    try {
+      // @ts-ignore
+      USDT_CONTRACT.approve(
+        "0xc204202c2840Fd33F84a951b9583462230640B83",
+        ethers.utils.parseUnits(String(Number(claimAmount) * 15))
+      )
+        .then((res: any) => {
+          console.log(res);
+          setCanClaim(false);
+          setToApprove(false);
+        })
+        .finally(() => {
+          getUSDTInfo();
+          setCanClaim(false);
+          setToApprove(false);
+          checkClaimInput();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const claimToken = () => {
+    try {
+      setCanClaim(false);
+      IDO_CONTRACT.claim(0, claimAmount, blindAddress)
+        .then((res: any) => {
+          console.log(res);
+        })
+        .catch((err: any) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setCanClaim(false);
+          getUSDTInfo();
+          getWFCABalance();
+        });
+    } catch (error) {}
+  };
+
+  const getReleaseRetio = () => {
+    LOCK_CONTRACT.currentClaimRatio().then((res: any) => {
+      console.log("release Ratio:", res);
+      setCurrenReleaseRetio(parseInt(res._hex));
     });
-  }, [connectionStatus]);
+  };
+
+  const getUerReleaseInfo = () => {
+    LOCK_CONTRACT.getInfo(currentWalletAddress).then((res: any) => {
+      console.log("current wallet Release Info", res);
+      setUserReleaseInfo(res);
+    });
+  };
+
+  const claimRelaseToken = () => {
+    if (parseInt(userReleaseInfo.currentClaimable)) {
+      LOCK_CONTRACT.ClaimToken().then((res: any) => {
+        console.log(res);
+      });
+    } else {
+      alert("当前无可领取的WFCA");
+    }
+  };
 
   useEffect(() => {
-    setInviter("");
-    getWfcaTotalSupply();
-    if (currentWalletAddress) {
+    // @ts-ignore
+    if (window.ethereum == undefined) {
+      alert("未在该浏览器检测到钱包插件，请在区块链浏览器打开本网站！");
+    } else {
+      connectWallet();
+      // @ts-ignore
+      window.ethereum.on("accountsChanged", function (accounts) {
+        setCurrentWalletAddress(accounts[0]);
+      });
+      // @ts-ignore
+      !chainIdListener &&
+        window.ethereum.on("chainChanged", function (chainId) {
+          // if (chainId != "0x38") {
+          //   alert("请切换至BSC主网");
+          // }
+          setCurrtChainId(chainId);
+          console.log(chainId);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window.ethereum != undefined) {
+      if (currtChainId != "0x38" || "") {
+        // @ts-ignore
+        window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x38" }], // chainId must be in hexadecimal numbers
+        });
+      }
+    }
+  }, [currtChainId]);
+
+  useEffect(() => {
+    // @ts-ignore
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const IDO_CONTRACT = new ethers.Contract(
+      "0xc204202c2840Fd33F84a951b9583462230640B83",
+      IDO_ABI,
+      signer
+    );
+    const USDT_CONTRACT = new ethers.Contract(
+      "0x55d398326f99059fF775485246999027B3197955",
+      ERC20ABI,
+      signer
+    );
+    const WFCA_CONTRACT = new ethers.Contract(
+      "0x209c684BfA5fcCa338EE623eF0Fc675e3122cd2b",
+      ERC20ABI,
+      signer
+    );
+    const LOCK_CONTRACT = new ethers.Contract(
+      "0xd610E983eAf26936dB9Fb0a97Eac4E96A4299f0D",
+      LOCKABI,
+      signer
+    );
+
+    setIDO_CONTRACT(IDO_CONTRACT);
+    setUSDT_CONTRACT(USDT_CONTRACT);
+    setWFCA_CONTRACT(WFCA_CONTRACT);
+    setLOCK_CONTRACT(LOCK_CONTRACT);
+  }, [currentWalletAddress, currtChainId]);
+
+  useEffect(() => {
+    if (IDO_CONTRACT && currentWalletAddress) {
       getCurrentPoolInfo();
-      getAddressInviter();
-      getInviteeHistory();
+      getUserInfo();
+    }
+  }, [IDO_CONTRACT, currentWalletAddress]);
+
+  useEffect(() => {
+    if (WFCA_CONTRACT && currentWalletAddress) {
       getClaimedAmount();
       getWFCABalance();
+    }
+  }, [WFCA_CONTRACT, currentWalletAddress]);
+
+  useEffect(() => {
+    if (USDT_CONTRACT && currentWalletAddress) {
       getUSDTInfo();
     }
-  }, [currentWalletAddress]);
+  }, [USDT_CONTRACT, currentWalletAddress]);
+
+  useEffect(() => {
+    if (LOCK_CONTRACT && currentWalletAddress) {
+      getReleaseRetio();
+      getUerReleaseInfo();
+    }
+  }, [LOCK_CONTRACT, currentWalletAddress]);
+
   return (
     <div className="min-h-[1600px] h-auto lg:min-h-screen bg-[#0f103c] text-white flex">
       <Head>
@@ -670,21 +364,15 @@ export default function Home() {
       />
       <div className="w-full bg-black bg-opacity-60 backdrop-blur h-[60px] fixed z-50 flex justify-between lg:px-20">
         <div></div>
-        <ConnectWallet
-          theme="dark"
-          style={{
-            height: "80%",
-            alignSelf: "center",
-            backgroundImage:
-              "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-            color: "white",
-            borderWidth: "3px",
-            borderColor: "white",
-          }}
-        />
+        <div className="h-full">
+          <p>
+            已连接:{currentWalletAddress.slice(0, 6)}...
+            {currentWalletAddress.slice(-5, -1)}
+          </p>
+        </div>
       </div>
       <div className="w-full px-[40px] lg:px-[260px] mt-10 z-20 absolute">
-        <div className="w-full lg:h-[350px]  text-white z-0  mt-10 flex flex-col lg:flex-row">
+        <div className="w-full lg:h-[400px]  text-white z-0  mt-10 flex flex-col lg:flex-row">
           <div className="w-full lg:w-1/2 bg-white  lg:h-full h-[338px] bg-opacity-25 backdrop-blur-sm rounded-t-3xl lg:rounded-r-none lg:rounded-l-xl  flex flex-col  p-4 space-y-2">
             <div className="w-full  flex flex-col justify-center">
               <p className=" text-xl text-white">WFCA</p>
@@ -696,7 +384,14 @@ export default function Home() {
             </div>
             <div className="w-full">
               <div className="ds-badge ds-badge-warning text-white">
-                10 USDT/WFCA
+                {poolInfo && ethers.utils.formatEther(poolInfo.price)} USDT/WFCA
+              </div>
+            </div>
+            <div className="w-full">
+              <div
+                className="ds-badge ds-badge-warning text-white text-[8px]"
+                onClick={addToken}>
+                添加WFCA到钱包
               </div>
             </div>
             <div className="w-full grow text-center">
@@ -704,7 +399,7 @@ export default function Home() {
               WFCA，这是一个革命性的Web3平台，专注于提供最好的Web3项目！
             </div>
 
-            {connectionStatus === "connected" &&
+            {currentWalletAddress &&
               !(inviter == "0x0000000000000000000000000000000000000000") && (
                 <div className="w-full">
                   <p className=" text-sm text-white">邀请人:</p>
@@ -714,8 +409,8 @@ export default function Home() {
                 </div>
               )}
 
-            {connectionStatus === "connected" ? (
-              <div className="w-full">
+            {currentWalletAddress ? (
+              <div className="w-full flex justify-between">
                 <label
                   className="ds-btn ds-btn-outline ds-btn-secondary"
                   htmlFor="my-modal-6"
@@ -726,12 +421,25 @@ export default function Home() {
                     borderWidth: "3px",
                     borderColor: "white",
                   }}>
-                  Claim Token
+                  兑换WFCA
                 </label>
+                <button
+                  className="btn ds-btn"
+                  style={{
+                    backgroundImage:
+                      "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                    color: "white",
+                    borderWidth: "3px",
+                    borderColor: "white",
+                  }}
+                  onClick={() => {
+                    claimRelaseToken();
+                  }}>
+                  领取释放额度
+                </button>
               </div>
             ) : (
-              <ConnectWallet
-                theme="dark"
+              <button
                 style={{
                   alignSelf: "center",
                   backgroundImage:
@@ -740,11 +448,15 @@ export default function Home() {
                   borderWidth: "3px",
                   borderColor: "white",
                 }}
-              />
+                onClick={() => {
+                  connectWallet();
+                }}>
+                连接钱包
+              </button>
             )}
           </div>
           <div className="w-full lg:w-1/2 bg-pink-200 lg:h-full h-[500px] bg-opacity-25 backdrop-blur-sm rounded-b-3xl lg:rounded-l-none lg:rounded-r-xl  flex flex-col  p-4 space-y-2">
-            {connectionStatus == "connected" && (
+            {currentWalletAddress && (
               <div className="w-full min-h-[117px] flex flex-row divide-x-2">
                 <div className="w-1/2">
                   <p className=" text-sm text-white">您的余额:</p>
@@ -781,21 +493,42 @@ export default function Home() {
                 </div>
               </div>
             )}
-            {connectionStatus == "connected" && (
+            {currentWalletAddress && (
               <div className="w-full min-h-[60px] flex flex-row divide-x-2">
                 <div className="w-1/2">
-                  <p className=" text-sm text-white">已兑换:</p>
+                  <p className=" text-sm text-white">未释放:</p>
                   <p className=" text-2xl text-white">
-                    {claimHistory
-                      ? claimHistory.sumQuantityClaimed &&
-                        claimHistory.sumQuantityClaimed
-                      : 0}{" "}
+                    {userReleaseInfo &&
+                      parseInt(userReleaseInfo.totalClaimable) -
+                        parseInt(userReleaseInfo.userClaimedAmount)}{" "}
                     WFCA
                   </p>
                 </div>
                 <div className="w-1/2">
-                  <p className=" text-sm text-white pl-2">可兑换:</p>
-                  <p className=" text-2xl text-white pl-2"> -- WFCA</p>
+                  <p className=" text-sm text-white pl-2">当前释放率:</p>
+                  <p className=" text-2xl text-white pl-2">
+                    {currenReleaseRetio} %
+                  </p>
+                </div>
+              </div>
+            )}
+            {currentWalletAddress && (
+              <div className="w-full min-h-[60px] flex flex-row divide-x-2">
+                <div className="w-1/2">
+                  <p className=" text-sm text-white">已领取释放:</p>
+                  <p className=" text-2xl text-white">
+                    {userReleaseInfo &&
+                      parseInt(userReleaseInfo.userClaimedAmount)}
+                    WFCA
+                  </p>
+                </div>
+                <div className="w-1/2">
+                  <p className=" text-sm text-white pl-2">当前可领取释放:</p>
+                  <p className=" text-2xl text-white pl-2">
+                    {" "}
+                    {userReleaseInfo &&
+                      parseInt(userReleaseInfo.currentClaimable)}
+                  </p>
                 </div>
               </div>
             )}
@@ -803,21 +536,25 @@ export default function Home() {
               <p className=" text-sm text-white">IDO 进度:</p>
               <progress
                 className="ds-progress ds-progress-secondary  w-full"
-                value={(
-                  (1 -
-                    parseInt(poolInfo.balance._hex, 16) /
-                      parseInt(poolInfo.supply._hex, 16)) *
-                  100
-                ).toFixed(2)}
-                max="100"></progress>
-              <div className="w-full flex flex-row justify-between">
-                <p className=" text-sm text-white ">
-                  {(
+                value={
+                  poolInfo &&
+                  (
                     (1 -
                       parseInt(poolInfo.balance._hex, 16) /
                         parseInt(poolInfo.supply._hex, 16)) *
                     100
-                  ).toFixed(2)}
+                  ).toFixed(2)
+                }
+                max="100"></progress>
+              <div className="w-full flex flex-row justify-between">
+                <p className=" text-sm text-white ">
+                  {poolInfo &&
+                    (
+                      (1 -
+                        parseInt(poolInfo.balance._hex, 16) /
+                          parseInt(poolInfo.supply._hex, 16)) *
+                      100
+                    ).toFixed(2)}
                   %
                 </p>
                 <p className=" text-sm text-white ">
@@ -837,7 +574,7 @@ export default function Home() {
           </div>
           <div className="w-full lg:px-10">
             <p>
-              1.直推不满10个，推荐奖励百分之十，满十个奖励百分之十五。同时赠送5等级
+              1.直推不满10个，推荐奖励百分之十。满十个奖励百分之十五。同时赠送5等级
               NFT
             </p>
             <p>2.直推满20个，推荐奖励百分之二十，同时赠送4等级 NFT。</p>
@@ -851,102 +588,8 @@ export default function Home() {
             <p>2等级NFT可兑换原 价值四万人民币</p>
             <p>1等级NFT可兑换原 价值六万人民币。</p>
             <p>钻石由日本企业钻石矿提供。</p>
-            <p>代币和NFT奖励将在该轮IDO结束后三个工作日内空投至钱包中</p>
           </div>
         </div>
-
-        {/* <div
-            className="mt-[80px] w-[458px] h-[58px] text-[#333] leading-[58px] text-center mx-[auto] mb-[40px]"
-            style={style.bannar2}>
-            <span className="text-[40px] font-[700]">购买</span>
-            <span className="text-[24px]">（XXXX USDT/WFCA）</span>
-            </div>
-
-            <div className="w-[458px] h-[60px] flex items-center mx-[auto] text-[16px]">
-            <span className="w-[100px]">邀请人地址：</span>
-            <input
-                placeholder="请输入"
-                style={{ outline: "none" }}
-                className="ring-[#f4f4f4] rounded-[4px] px-[10px] text-[#333] w-[309px] ml-[4px] h-[40px] leading-[40px] border boroer-[#f4f4f4]"
-                type="text"
-            />
-            </div>
-
-            <div className="w-[458px] h-[60px] flex items-center mx-[auto] text-[16px] mb-[40px]">
-            <span className="w-[100px] text-right">购买数量：</span>
-            <input
-                placeholder="请输入"
-                style={{ outline: "none" }}
-                className="ring-[#f4f4f4] rounded-[4px] px-[10px] text-[#333] w-[309px] ml-[4px] h-[40px] leading-[40px] border boroer-[#f4f4f4]"
-                type="text"
-            />
-            </div>
-
-            <div
-            className="w-[202px] h-[48px] mx-[auto] text-center leading-[48px] mb-[140px]"
-            style={style.bannar3}>
-            购买
-            </div>
-
-            <div
-            className="w-[1200px] h-[370px] mx-[auto] p-[40px] text-white mb-[40px]"
-            style={style.bannar4}>
-            <div className="text-[24px] leading-[24px] font-[700] text-center">
-                我的团队
-            </div>
-            <div className="px-[120px] flex justify-between">
-                <span>哈希地址</span>
-                <span>数量</span>
-            </div>
-            <div className="text-white ">
-                {arr.map((item, index) => (
-                <div
-                    className="flex justify-between px-[120px] h-[64px] leading-[64px] border-b"
-                    style={{ borderBottom: "1px solod ##f4f4f4" }}>
-                    <div>GGGGGGGHHHQQQQQQQIIIQQQQWSFGHJERTYUIOJNGQW</div>
-                    <div>x10</div>
-                </div>
-                ))}
-            </div>
-            </div>
-
-            <div
-            className="w-[202px] h-[48px] mx-[auto] text-center leading-[48px] mb-[140px]"
-            style={style.bannar3}>
-            领取奖励
-            </div>
-
-            <div
-            className="w-[1200px] h-[370px] mx-[auto] p-[40px] text-white mb-[40px]"
-            style={style.bannar4}>
-            <div className="text-[24px] leading-[24px] font-[700] text-center">
-                邀请规则
-            </div>
-            <div className="w-[600px] mx-[auto] text-[14px] leading-[24px] mt-[24px]">
-                1.直推不满10个，推荐奖励百分之十，满十个奖励百分之十五。同时赠送5等级
-                NFT
-                <br />
-                2.直推满20个，推荐奖励百分之二十，同时赠送4等级 NFT
-                <br />
-                3.直推满30个，推荐奖励百分之二十五，同时赠送3等级 NFT
-                <br />
-                4.直推满40个，推荐奖励百分之二十五，同时赠送2等级 NFT
-                <br />
-                5.直推满50个，推荐奖励百分之二十五。同时赠送1等级 NFT
-                <br />
-                备注：5等级 NFT可兑换原 价值五千人民币
-                <br />
-                4等级 NFT可兑换原 价值一万人民币
-                <br />
-                3等级 NFT可兑换原 价值两万人民币
-                <br />
-                2等级 NFT可兑换原 价值四万人民币。
-                <br />
-                1等级 NFT可兑换原 价值六万人民币。
-                <br />
-                钻石由日本企业砖石矿提供。
-            </div>
-            </div> */}
       </div>
       <input type="checkbox" id="my-modal-6" className="ds-modal-toggle " />
       <div className="ds-modal">
@@ -956,7 +599,7 @@ export default function Home() {
             className="ds-btn ds-btn-sm ds-btn-circle absolute right-2 top-2 bg-pink-500 border-white">
             ✕
           </label>
-          <h3 className="text-lg font-bold">Claim Token</h3>
+          <h3 className="text-lg font-bold">兑换WFCA</h3>
           <div className="w-full flex flex-col">
             {inviter == "0x0000000000000000000000000000000000000000" && (
               <div className="ds-form-control w-full max-w-xs">
@@ -967,7 +610,7 @@ export default function Home() {
                 </label>
                 <input
                   type="text"
-                  placeholder="0x123..."
+                  placeholder=""
                   className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
                   onChange={(e) => {
                     setBlindAddress(e.target.value);
@@ -984,7 +627,7 @@ export default function Home() {
               </label>
               <input
                 type="number"
-                placeholder="10"
+                placeholder=" "
                 value={claimAmount}
                 className="ds-input ds-input-bordered ds-input-secondary text-pink-500 w-full max-w-xs"
                 onChange={(e) => {
@@ -996,7 +639,7 @@ export default function Home() {
               />
               <label className="ds-label">
                 <span className="ds-label-text-alt text-white text-xl">
-                  需要支付:{claimAmount * 10} USDT
+                  需要支付:{claimAmount * 15} USDT
                 </span>
                 {/* <span className="ds-label-text-alt">Bottom Right label</span> */}
               </label>
@@ -1007,25 +650,9 @@ export default function Home() {
           </p>
           <div className="w-full flex justify-center">
             {canClaim ? (
-              <Web3Button
-                contractAddress="0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B"
-                contractAbi={IDO_ABI}
-                action={(contract) => {
-                  setCanClaim(false);
-                  contract
-                    .call("claim", [0, claimAmount, blindAddress])
-                    .then((res) => {
-                      console.log(res);
-                    })
-                    .catch((err) => {
-                      console.log(err);
-                    })
-                    .finally(() => {
-                      setCanClaim(false);
-                      getUSDTInfo();
-                      getWFCABalance();
-                      getWfcaTotalSupply();
-                    });
+              <button
+                onClick={() => {
+                  claimToken();
                 }}
                 style={{
                   alignSelf: "center",
@@ -1035,8 +662,8 @@ export default function Home() {
                   borderWidth: "3px",
                   borderColor: "white",
                 }}>
-                Claim Token
-              </Web3Button>
+                兑换WFCA
+              </button>
             ) : (
               <div>
                 {!toApprove && (
@@ -1047,27 +674,11 @@ export default function Home() {
                   </button>
                 )}
                 {toApprove && (
-                  <Web3Button
-                    contractAddress="0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A"
-                    action={(contract) => {
-                      // Logic to execute when clicked
-                      contract.erc20
-                        .setAllowance(
-                          "0x33698A34F7DE0CcA5Ced3BFab114d7Af95d79B8B",
-                          claimAmount * 10
-                        )
-                        .then((res) => {
-                          console.log(res);
-                          setCanClaim(false);
-                          setToApprove(false);
-                        })
-                        .finally(() => {
-                          getUSDTInfo();
-                          setCanClaim(false);
-                          setToApprove(false);
-                          checkClaimInput();
-                        });
+                  <button
+                    onClick={() => {
+                      approveUSDT();
                     }}
+                    className="btn ds-btn"
                     style={{
                       alignSelf: "center",
                       backgroundImage:
@@ -1077,7 +688,7 @@ export default function Home() {
                       borderColor: "white",
                     }}>
                     批准许可额度
-                  </Web3Button>
+                  </button>
                 )}
               </div>
             )}

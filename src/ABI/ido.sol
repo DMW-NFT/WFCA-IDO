@@ -20,14 +20,22 @@ contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgrad
         uint256 endBlock;
     }
 
+    struct UserInfo{
+        uint256 allReward; //基础总奖励
+        uint256 rebtReward;//实际获取的奖励   补偿奖励=allReward*rewardRatio-rebtReward
+        uint256 score;     //推广人数
+        uint256 claimed;   //自己认购数量
+        address inviterBy; //邀请人
+    }
+
     PoolInfo[] public poolInfo;
-    mapping(address user => uint256 score) public score;
-    mapping(address user => address inviter) public invitedBy;
+    mapping(address user => UserInfo) public userInfo;
     IERC20 tokenWFCA;
     IERC20 tokenMND;
     IERC20 tokenUSDT;
-    IERC1155 toekn1155Diamond;
+    // IERC1155 toekn1155Diamond;
     ISwapRouterV2 swapRouterV2;
+    TokenERC1155 toekn1155Diamond;
 
     address public MNDHolder;
     address public USDTHolder;
@@ -50,16 +58,19 @@ contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgrad
         __UUPSUpgradeable_init();
 
         //TODO 这里需要初始化 token地址和相关持币地址
-        tokenWFCA = IERC20(0x3a6A2F396fa52d2e2F127c26F8df738AF151B300);
-        tokenMND = IERC20(0x713f11D6c2aA207305336F0bA5Dc63E4D7Ccb74B);
-        tokenUSDT = IERC20(0xCA6f0B31ff472DF2eE409D1f0940d59e1630ED3A);
-        toekn1155Diamond = IERC1155(0x939Fc06Dc059bc5CE94a67C7DAdcf29044802474);
+        tokenWFCA = IERC20(0x209c684BfA5fcCa338EE623eF0Fc675e3122cd2b);
+        tokenMND = IERC20(0x9d97e1b22a4a8C8075Fc3b4dAED6700a59F9C869);
+        tokenUSDT = IERC20(0x55d398326f99059fF775485246999027B3197955);
+        toekn1155Diamond = TokenERC1155(0x737C0295ffA973a9f9Da1d2142321172b729FE40);
         swapRouterV2 = ISwapRouterV2(
-            0xDE2Db97D54a3c3B008a097B2260633E6cA7DB1AF
+            0x10ED43C718714eb63d5aA57B78B54704E256024E
         );
-        MNDHolder = 0xe403E8011CdB251c12ccF6911F44D160699CCC3c;
-        USDTHolder = 0xe403E8011CdB251c12ccF6911F44D160699CCC3c;
-        score[0xe403E8011CdB251c12ccF6911F44D160699CCC3c] = 49;
+        MNDHolder = 0x236beE2c1F312cc5A99d98684EcE4c634903e2E8;
+        USDTHolder = 0x09D240281C73A01b26D8C9295650a3F9B837155F;
+
+        UserInfo storage _userInfo=userInfo[0xe403E8011CdB251c12ccF6911F44D160699CCC3c];
+        _userInfo.score=49;
+        _userInfo.claimed=10;
     }
 
     function _authorizeUpgrade(
@@ -86,19 +97,25 @@ contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgrad
     }
 
     function claim(uint256 poolId, uint256 num, address inviter) external {
+        
         PoolInfo storage _info = poolInfo[poolId];
+        require(num <= _info.balance,"WFCAClaim: the pool balance is insufficient");
         require(_info.minimum <= num, "WFCAClaim: require than minimum ");
         require(
             _info.startBlock < block.number && _info.endBlock > block.number,
             "WFCAClaim: Pool Closed"
         );
         require(_info.balance > 0, "WFCAClaim: Insufficient funds");
+        UserInfo storage _userInfo=userInfo[msg.sender];
+        address _inviter=_userInfo.inviterBy;
+        UserInfo storage inviterInfo=userInfo[_inviter];
 
-        address _inviter = invitedBy[msg.sender];
         if (_inviter == address(0)) {
-            invitedBy[msg.sender] = inviter;
+            inviterInfo=userInfo[inviter];
+            require(inviterInfo.claimed>9,"WFCAClaim: err Inviter");
+            _userInfo.inviterBy = inviter;
             _inviter = inviter;
-            score[inviter] += 1;
+            inviterInfo.score+=1;
             rewardERC1155(_inviter);
         }
 
@@ -115,35 +132,50 @@ contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgrad
             0,
             address(this)
         );
-        uint256 mndAMount = amounts[1];
-
-        uint256 inviterReward = mndAMount.mul(rewardRatio(_inviter)).div(100);
+        uint256 mndAmount = amounts[1];
+        uint256 _rewardRatio=rewardRatio(_inviter);
+        uint256 inviterReward = mndAmount.mul(_rewardRatio).div(100);
         tokenMND.transfer(_inviter, inviterReward);
-        tokenMND.transfer(MNDHolder, mndAMount.sub(inviterReward));
-
+        tokenMND.transfer(MNDHolder, mndAmount.div(2));
         tokenWFCA.transfer(msg.sender, num * 1e18);
         _info.balance -= num;
+        _userInfo.claimed+=num;
+        inviterInfo.allReward+=mndAmount;
+        inviterInfo.rebtReward+=inviterReward;
+        
+        uint256 subAmount=inviterInfo.allReward.mul(_rewardRatio).div(100).sub(inviterInfo.rebtReward);
+        if(subAmount>0){
+            tokenMND.transfer(_inviter,subAmount);
+            inviterInfo.rebtReward+=subAmount;
+        }
+
         emit Claimed(poolId, msg.sender, num, _inviter);
     }
 
     function rewardERC1155(address user) internal {
-        uint256 _score = score[user];
+        uint256 _score = userInfo[user].score;
         //TODO 这里要注意11155的tokenID,请自行设置，或者定义常量
         if (_score == 10) {
-            toekn1155Diamond.safeTransferFrom(address(this), user, 0, 1, "");
+            toekn1155Diamond.mintTo(user, 0, "ipfs://QmQV86c4wL9QbXF9ahUbq9EDGqZzFug5m5dhKsDJhYNV9f/0",1);
         } else if (_score == 20) {
-            toekn1155Diamond.safeTransferFrom(address(this), user, 1, 1, "");
+            toekn1155Diamond.mintTo(user, 1, "ipfs://QmcQpXStc8YAWXE3C5tyALdKSsvxX5LNppvFHbpjG8et4k/0",1);
         } else if (_score == 30) {
-            toekn1155Diamond.safeTransferFrom(address(this), user, 2, 1, "");
+            toekn1155Diamond.mintTo(user, 2, "ipfs://QmSxaLpzFgQHTxY3HdAiJD7RjBCEYkZTmdZfgfsQm4Amso/0",1);
         } else if (_score == 40) {
-            toekn1155Diamond.safeTransferFrom(address(this), user, 3, 1, "");
+            toekn1155Diamond.mintTo(user, 3, "ipfs://QmXCgiB8GYuzqQ1HxFaXqhuytnzNJ1kaWDpxxsjyCkGCzC/0",1);
         } else if (_score == 50) {
-            toekn1155Diamond.safeTransferFrom(address(this), user, 4, 1, "");
+            toekn1155Diamond.mintTo(user, 4, "ipfs://QmNd13ghMDdV7xNKbdAH7dhhgad4TnHSQ8yxDiFu1a68ft/0",1);
         }
     }
 
+
+    function withdrawBalance() external {
+        require(msg.sender==MNDHolder);
+        tokenMND.transfer(msg.sender, tokenMND.balanceOf(address(this)));
+    }
+
     function rewardRatio(address user) internal view returns (uint256) {
-        uint256 _score = score[user];
+        uint256 _score = userInfo[user].score;
         if (_score < 10) {
             return 20;
         } else if (_score < 20) {
@@ -172,6 +204,14 @@ contract WFCAClaim is Initializable, OwnableUpgradeable,ERC1155Holder,UUPSUpgrad
                 block.timestamp
             );
     }
+}
+interface TokenERC1155 {
+    function mintTo(
+        address _to,
+        uint256 _tokenId,
+        string calldata _uri,
+        uint256 _amount
+    ) external;
 }
 
 interface ISwapRouterV2 {
