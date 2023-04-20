@@ -126,6 +126,11 @@ export default function Home() {
       return;
     }
 
+    if (Number(claimAmount) * 15 > Number(usdtBalance)) {
+      alert("USDT余额不足");
+      return;
+    }
+
     setCanClaim(true);
   };
 
@@ -148,8 +153,8 @@ export default function Home() {
     console.log("erc20 supply:", supply);
     console.log(balance);
 
-    // setwfcaBalance(balance.displayValue);
-    // setTotalSupply(supply.displayValue);
+    setwfcaBalance(ethers.utils.formatEther(balance._hex));
+    setTotalSupply(ethers.utils.formatEther(supply._hex));
   };
 
   const getUSDTInfo = async () => {
@@ -161,8 +166,10 @@ export default function Home() {
 
     console.log("erc20 balance:", balance);
     console.log("erc20 allowance:", allowance);
-    // setUsdtBalance(balance.displayValue);
-    // setUsdtAllowance(allowance.displayValue);
+    setUsdtBalance(ethers.utils.formatEther(String(parseInt(balance._hex))));
+    setUsdtAllowance(
+      ethers.utils.formatEther(String(parseInt(allowance._hex)))
+    );
     setCanClaim(false);
     setToApprove(false);
   };
@@ -496,11 +503,17 @@ export default function Home() {
             {currentWalletAddress && (
               <div className="w-full min-h-[60px] flex flex-row divide-x-2">
                 <div className="w-1/2">
-                  <p className=" text-sm text-white">未释放:</p>
+                  <p className=" text-sm text-white">未释放: </p>
                   <p className=" text-2xl text-white">
                     {userReleaseInfo &&
-                      parseInt(userReleaseInfo.totalClaimable) -
-                        parseInt(userReleaseInfo.userClaimedAmount)}{" "}
+                      Number(
+                        ethers.utils.formatEther(userReleaseInfo.totalClaimable)
+                      ) -
+                        Number(
+                          ethers.utils.formatEther(
+                            userReleaseInfo.userClaimedAmount
+                          )
+                        )}{" "}
                     WFCA
                   </p>
                 </div>
@@ -518,7 +531,9 @@ export default function Home() {
                   <p className=" text-sm text-white">已领取释放:</p>
                   <p className=" text-2xl text-white">
                     {userReleaseInfo &&
-                      parseInt(userReleaseInfo.userClaimedAmount)}
+                      ethers.utils.formatEther(
+                        userReleaseInfo.userClaimedAmount
+                      )}{" "}
                     WFCA
                   </p>
                 </div>
@@ -527,7 +542,9 @@ export default function Home() {
                   <p className=" text-2xl text-white pl-2">
                     {" "}
                     {userReleaseInfo &&
-                      parseInt(userReleaseInfo.currentClaimable)}
+                      ethers.utils.formatEther(
+                        userReleaseInfo.currentClaimable
+                      )}
                   </p>
                 </div>
               </div>
@@ -539,10 +556,10 @@ export default function Home() {
                 value={
                   poolInfo &&
                   (
-                    (1 -
-                      parseInt(poolInfo.balance._hex, 16) /
-                        parseInt(poolInfo.supply._hex, 16)) *
-                    100
+                    1 -
+                    (Number(ethers.utils.formatEther(poolInfo.balance._hex)) /
+                      Number(ethers.utils.formatEther(poolInfo.supply._hex))) *
+                      100
                   ).toFixed(2)
                 }
                 max="100"></progress>
@@ -654,6 +671,7 @@ export default function Home() {
                 onClick={() => {
                   claimToken();
                 }}
+                className="btn ds-btn"
                 style={{
                   alignSelf: "center",
                   backgroundImage:
