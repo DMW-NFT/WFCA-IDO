@@ -45,6 +45,7 @@ export default function Home() {
   const [chainIdListener, setChainIdListener] = useState<any>(false);
   const [currenReleaseRetio, setCurrenReleaseRetio] = useState(0);
   const [userReleaseInfo, setUserReleaseInfo] = useState<any>(null);
+  const [approveBtnStatus, setApproveBtnStatus] = useState("active");
   const connectWallet = async () => {
     // @ts-ignore
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
@@ -166,12 +167,37 @@ export default function Home() {
 
     console.log("erc20 balance:", balance);
     console.log("erc20 allowance:", allowance);
-    setUsdtBalance(ethers.utils.formatEther(String(parseInt(balance._hex))));
-    setUsdtAllowance(
-      ethers.utils.formatEther(String(parseInt(allowance._hex)))
-    );
+    setUsdtBalance(ethers.utils.formatEther(balance));
+    setUsdtAllowance(ethers.utils.formatEther(allowance));
     setCanClaim(false);
     setToApprove(false);
+  };
+
+  const freshUSDT = async () => {
+    const balance = await USDT_CONTRACT.balanceOf(currentWalletAddress);
+    const allowance = await USDT_CONTRACT.allowance(
+      currentWalletAddress,
+      "0xc204202c2840Fd33F84a951b9583462230640B83"
+    );
+
+    console.log("fresh erc20 balance:", balance);
+    console.log("fresh erc20 allowance:", allowance);
+    setUsdtBalance(ethers.utils.formatEther(balance));
+    setUsdtAllowance(ethers.utils.formatEther(allowance));
+    console.log(
+      Number(claimAmount) * 15,
+      Number(ethers.utils.formatEther(allowance))
+    );
+    if (
+      Number(claimAmount) * 15 <=
+      Number(ethers.utils.formatEther(allowance))
+    ) {
+      console.log(
+        Number(claimAmount) * 15,
+        Number(ethers.utils.formatEther(allowance))
+      );
+      setToApprove(false);
+    }
   };
 
   const addToken = async () => {
@@ -200,31 +226,36 @@ export default function Home() {
   };
 
   const approveUSDT = () => {
-    try {
-      // @ts-ignore
-      USDT_CONTRACT.approve(
-        "0xc204202c2840Fd33F84a951b9583462230640B83",
-        ethers.utils.parseUnits(String(Number(claimAmount) * 15))
-      )
-        .then((res: any) => {
-          console.log(res);
-          setCanClaim(false);
-          setToApprove(false);
-        })
-        .finally(() => {
+    // @ts-ignore
+    setApproveBtnStatus("arpproving");
+    USDT_CONTRACT.approve(
+      "0xc204202c2840Fd33F84a951b9583462230640B83",
+      ethers.utils.parseUnits(String(Number(claimAmount) * 15))
+    )
+      .then((res: any) => {
+        console.log(res);
+        setCanClaim(false);
+        setToApprove(false);
+        setTimeout(() => {
           getUSDTInfo();
-          setCanClaim(false);
-          setToApprove(false);
-          checkClaimInput();
-        });
-    } catch (error) {
-      console.log(error);
-    }
+          setApproveBtnStatus("active");
+        }, 15000);
+      })
+      .catch((err: any) => {
+        setApproveBtnStatus("active");
+      })
+      .finally(() => {
+        setCanClaim(false);
+        setToApprove(false);
+        checkClaimInput();
+        console.log("approve end");
+      });
   };
 
   const claimToken = () => {
     try {
       setCanClaim(false);
+      console.log(0, claimAmount, blindAddress);
       IDO_CONTRACT.claim(0, claimAmount, blindAddress)
         .then((res: any) => {
           console.log(res);
@@ -346,8 +377,13 @@ export default function Home() {
   useEffect(() => {
     if (USDT_CONTRACT && currentWalletAddress) {
       getUSDTInfo();
+      const interval = setInterval(() => {
+        freshUSDT();
+      }, 5000);
+
+      return () => clearInterval(interval);
     }
-  }, [USDT_CONTRACT, currentWalletAddress]);
+  }, [USDT_CONTRACT, currentWalletAddress, claimAmount]);
 
   useEffect(() => {
     if (LOCK_CONTRACT && currentWalletAddress) {
@@ -427,6 +463,9 @@ export default function Home() {
                     color: "white",
                     borderWidth: "3px",
                     borderColor: "white",
+                  }}
+                  onClick={() => {
+                    getUSDTInfo();
                   }}>
                   兑换WFCA
                 </label>
@@ -556,10 +595,10 @@ export default function Home() {
                 value={
                   poolInfo &&
                   (
-                    1 -
-                    (Number(ethers.utils.formatEther(poolInfo.balance._hex)) /
-                      Number(ethers.utils.formatEther(poolInfo.supply._hex))) *
-                      100
+                    (1 -
+                      Number(ethers.utils.formatEther(poolInfo.balance)) /
+                        Number(ethers.utils.formatEther(poolInfo.supply))) *
+                    100
                   ).toFixed(2)
                 }
                 max="100"></progress>
@@ -691,23 +730,36 @@ export default function Home() {
                     Chek
                   </button>
                 )}
-                {toApprove && (
-                  <button
-                    onClick={() => {
-                      approveUSDT();
-                    }}
-                    className="btn ds-btn"
-                    style={{
-                      alignSelf: "center",
-                      backgroundImage:
-                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-                      color: "white",
-                      borderWidth: "3px",
-                      borderColor: "white",
-                    }}>
-                    批准许可额度
-                  </button>
-                )}
+                {toApprove &&
+                  (approveBtnStatus == "active" ? (
+                    <button
+                      onClick={() => {
+                        approveUSDT();
+                      }}
+                      className="btn ds-btn disabled"
+                      style={{
+                        alignSelf: "center",
+                        backgroundImage:
+                          "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                        color: "white",
+                        borderWidth: "3px",
+                        borderColor: "white",
+                      }}>
+                      批准许可额度
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {}}
+                      className="btn ds-btn disabled"
+                      style={{
+                        alignSelf: "center",
+                        color: "white",
+                        borderWidth: "3px",
+                        borderColor: "white",
+                      }}>
+                      正在批准许可额度
+                    </button>
+                  ))}
               </div>
             )}
           </div>
