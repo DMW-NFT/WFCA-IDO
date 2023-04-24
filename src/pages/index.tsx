@@ -159,12 +159,12 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[100px] px-[20%] z-10">
+        <div className="flex  justify-between  w-full  text-white mb-[60px] lg:mb-[100px] px-[20px] lg:px-[20%] z-10">
           <div
-            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            className="w-1/3 text-[16px] text-center flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
             onClick={() => {
               gotopdf(
-                "https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf"
+                "https://ipfs.thirdwebcdn.com/ipfs/QmTzZwXftcwnqqJLthPxQzJXeMvuvvztTeyvjprqULLkrW/WFCA%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D.pdf"
               );
             }}>
             <Image
@@ -172,10 +172,10 @@ export default function Home() {
               alt="Album"
               className="mb-[20px] h-[50px] w-[35px] object-cover lg:mb-[40px]"
             />
-            <div>{t("项目介绍")}</div>
+            <p className="">{t("项目介绍")}</p>
           </div>
           <div
-            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            className="w-1/3 text-[16px]  text-center flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
             onClick={() => {
               gotopdf("https://dde-fintech.com/");
             }}>
@@ -184,11 +184,11 @@ export default function Home() {
               alt="Album"
               className="mb-[20px] h-[50px] w-[35px] object-cover lg:mb-[40px]"
             />
-            <div>{t("企业介绍")}</div>
+            <p>{t("企业介绍")}</p>
           </div>
 
           <div
-            className="text-[16px] flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
+            className="w-1/3 text-[16px]  text-center flex  flex-col justify-center items-center lg:text-[24px] leading-[24px] font-[700] hover:cursor-pointer"
             onClick={() => {
               gotopdf(
                 "https://ipfs.thirdwebcdn.com/ipfs/QmRzGcM1KNMncKy7LHeQGFJB1mvpgftyAREMRTiPD7xVYC/WFCA.pdf"
@@ -199,7 +199,7 @@ export default function Home() {
               alt="Album"
               className="mb-[20px] h-[50px] w-[35px] object-cover lg:mb-[40px]"
             />
-            <div>{t("白皮书")}</div>
+            <p>{t("白皮书")}</p>
           </div>
         </div>
 

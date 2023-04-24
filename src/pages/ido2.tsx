@@ -108,10 +108,10 @@ export default function Home() {
       return;
     }
 
-    if (Number(claimAmount) * 15 > Number(usdtBalance)) {
-      alert("USDT余额不足");
-      return;
-    }
+    // if (Number(claimAmount) * 15 > Number(usdtBalance)) {
+    //   alert("USDT余额不足");
+    //   return;
+    // }
 
     setCanClaim(true);
   };
