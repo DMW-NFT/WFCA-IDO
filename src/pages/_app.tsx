@@ -7,10 +7,11 @@ import {
   Polygon,
   BinanceTestnet,
   Binance,
+  Goerli
 } from "@thirdweb-dev/chains";
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThirdwebProvider activeChain="binance" supportedChains={[Binance]}>
+    <ThirdwebProvider activeChain="goerli" supportedChains={[Binance,Goerli]}>
       <Component {...pageProps} />
     </ThirdwebProvider>
   );
