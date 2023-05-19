@@ -54,6 +54,7 @@ export default function Home() {
     setCurrentWalletAddress(accounts[0]);
   };
 
+
   const getUserInfo = async () => {
     console.log("currentwallet :", currentWalletAddress);
     const res = await IDO_CONTRACT.userInfo(currentWalletAddress);

@@ -204,28 +204,10 @@ export default function Home() {
         </div>
 
         {/* 视频 */}
-        <div className="lg:h-[auto] text-white flex flex-col-reverse lg:flex-row lg:w-full  items-center mb-[60px]  z-0 lg:px-[268px]">
-          {/* <video src="https://ipfs.thirdwebcdn.com/ipfs/QmTPrAoZe1KYcnfuiEj6dvQJyE4ZfcQdb5pu5qoCUAjXE1/aae3931166f2b972b4ccabf1c4c4cb27.mp4"
-         className="h-[360px] w-[640px] object-cover mr-[40px]"
-        ></video> */}
-          {/* <div className=" flex-[2] mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] overflow-hidden  items-center  hidden lg:flex">
-            <Player
-              autoPlay={true}
-              playsInline={true}
-              src="https://ipfs.thirdwebcdn.com/ipfs/QmRu6guvUJhpaSJEKiGYipgCYFjXKe9ww9ANbaFgYqw353/WFCA.mp4"
-              poster="https://dde-fintech.com/wp-content/uploads/2021/06/AdobeStock_279568799-scaled.jpeg">
-              <ControlBar autoHide={false} >
-              <ReplayControl seconds={10} order={1.1} />
-              <PlayToggle />
-              <CurrentTimeDisplay order={4.1} />
-              <TimeDivider order={4.2} />
-              <PlaybackRateMenuButton rates={[5, 2, 1.5, 1, 0.5]} order={7.1} />
-              <VolumeMenuButton />
-            </ControlBar>
-            </Player>
-          </div> */}
+        <div className="lg:h-[auto] text-white flex flex-col-reverse lg:flex-row justify-center lg:w-full  items-center mb-[60px]  z-0 ">
+          
 
-          <div className="bg-[#0f103c] lg:w-[50%] w-full  mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] ">
+          <div className="bg-[#0f103c] lg:w-[600px]  w-full  mt-[20px] lg:mt-[0]  lg:px-[0]    object-cover lg:mr-[40px] ">
             <Player
               autoPlay
               // playsInline={true}
@@ -237,19 +219,17 @@ export default function Home() {
             </Player>
           </div>
 
-          {/* <Image
-          src={bannar}
-          alt="Album"
-        /> */}
-          <div className=" flex-1 ">
-            <div className="mb-[20px] text-[20px] lg:text-[36px] font-[700] leading-[30px] lg:mb-[40px] text-center ">
+          <div className="w-full lg:w-1/3 px-10 lg:px-0">
+            <div className="lg:w-full mb-[20px] text-[20px] lg:text-[36px] font-[700] leading-[30px] lg:mb-[40px] text-center ">
               {t("我们的使命")}
             </div>
-            <div className="w-full text-center  text-[14px] leading-[40px] mx-[auto] px-12">
+            <div className="w-full lg:w-full text-center  text-[14px] leading-[40px] mx-[auto] px-12">
               {t("通过世界最先端的区块链技术\n以WFCA为工具，达到利益最大化。")}
             </div>
           </div>
         </div>
+
+
         <div className="w-full h-[auto] flex justify-center">
           <p className="text-4xl text-blue-300 text-center">
             WFCA WEB3.0 PLATFORM

@@ -81,7 +81,7 @@ export default function Home() {
   };
 
   const getCurrentPoolInfo = async () => {
-    const res = await IDO_CONTRACT.poolInfo(0);
+    const res = await IDO_CONTRACT.poolInfo(1);
     console.log("poolInfo", res);
     setPoolInfo(res);
   };
@@ -122,12 +122,12 @@ export default function Home() {
       return;
     }
 
-    if (Number(claimAmount) * 15 > Number(usdtAllowance)) {
+    if (Number(claimAmount) * 20 > Number(usdtAllowance)) {
       setToApprove(true);
       return;
     }
 
-    if (Number(claimAmount) * 15 > Number(usdtBalance)) {
+    if (Number(claimAmount) * 20 > Number(usdtBalance)) {
       alert("USDT余额不足");
       return;
     }
@@ -185,15 +185,15 @@ export default function Home() {
     setUsdtBalance(ethers.utils.formatEther(balance));
     setUsdtAllowance(ethers.utils.formatEther(allowance));
     console.log(
-      Number(claimAmount) * 15,
+      Number(claimAmount) * 20,
       Number(ethers.utils.formatEther(allowance))
     );
     if (
-      Number(claimAmount) * 15 <=
+      Number(claimAmount) * 20 <=
       Number(ethers.utils.formatEther(allowance))
     ) {
       console.log(
-        Number(claimAmount) * 15,
+        Number(claimAmount) * 20,
         Number(ethers.utils.formatEther(allowance))
       );
       setToApprove(false);
@@ -230,7 +230,7 @@ export default function Home() {
     setApproveBtnStatus("arpproving");
     USDT_CONTRACT.approve(
       "0xc204202c2840Fd33F84a951b9583462230640B83",
-      ethers.utils.parseUnits(String(Number(claimAmount) * 15))
+      ethers.utils.parseUnits(String(Number(claimAmount) * 20))
     )
       .then((res: any) => {
         console.log(res);
@@ -255,8 +255,8 @@ export default function Home() {
   const claimToken = () => {
     try {
       setCanClaim(false);
-      console.log(0, claimAmount, blindAddress);
-      IDO_CONTRACT.claim(0, claimAmount, blindAddress)
+      console.log(1, claimAmount, blindAddress);
+      IDO_CONTRACT.claim(1, claimAmount, blindAddress)
         .then((res: any) => {
           console.log(res);
         })
@@ -695,7 +695,7 @@ export default function Home() {
               />
               <label className="ds-label">
                 <span className="ds-label-text-alt text-white text-xl">
-                  需要支付:{claimAmount * 15} USDT
+                  需要支付:{claimAmount * 20} USDT
                 </span>
                 {/* <span className="ds-label-text-alt">Bottom Right label</span> */}
               </label>
