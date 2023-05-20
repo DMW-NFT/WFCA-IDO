@@ -307,7 +307,7 @@ export default function Home() {
 
             {currentWalletAddress ? (
               <div className="w-full flex justify-between">
-                {!onClaimsWFCA ? (
+                {claimerInfo&&(!onClaimsWFCA ? (
                   <label
                     className="ds-btn ds-btn-outline ds-btn-secondary"
                     htmlFor="my-modal-6"
@@ -321,7 +321,7 @@ export default function Home() {
                     onClick={() => {
                       claimSWFCA();
                     }}>
-                    领取锁仓sWFCA
+                    领取锁仓WFCA
                   </label>
                 ) : (
                   <button
@@ -335,7 +335,7 @@ export default function Home() {
                     }}>
                     正在领取中
                   </button>
-                )}
+                ))}
                 {!onClaimRelaseToken ? (
                   <label
                     className="ds-btn ds-btn-outline ds-btn-secondary"
@@ -387,15 +387,15 @@ export default function Home() {
             {currentWalletAddress && (
               <div className="w-full min-h-[117px] flex flex-row divide-x-2">
                 <div className="w-1/2">
-                  <p className=" text-sm text-white">可领取锁仓sWFCA:</p>
+                  <p className=" text-sm text-white">可认领锁仓WFCA:</p>
                   <p className=" text-2xl text-white overflow-auto">
-                    {claimerInfo && claimerInfo.maxClaimable}
+                    {claimerInfo ? claimerInfo.maxClaimable:"加载中..."}
                   </p>
                 </div>
                 <div className="w-1/2 pl-2">
-                  <p className=" text-sm text-white">已领取锁仓sWFCA:</p>
+                  <p className=" text-sm text-white">已认领锁仓WFCA:</p>
                   <p className=" text-2xl text-white overflow-auto">
-                    {swfcaBlance && ethers.utils.formatEther(swfcaBlance)} sWFCA
+                    {swfcaBlance ? ethers.utils.formatEther(swfcaBlance):"加载中..."} 锁仓WFCA
                   </p>
                 </div>
               </div>
