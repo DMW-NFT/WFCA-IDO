@@ -17,7 +17,9 @@ import { useEffect, useState } from "react";
 import { ThirdwebSDK } from "@thirdweb-dev/sdk/evm";
 import { ethers } from "ethers";
 import Head from "next/head";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter();
   const connectionStatus = useConnectionStatus();
   const wallet = useWallet();
   const [currentWalletAddress, setCurrentWalletAddress] = useState<string>("");
@@ -360,6 +362,10 @@ export default function Home() {
     setLOCK_CONTRACT(LOCK_CONTRACT);
   }, [currentWalletAddress, currtChainId]);
 
+  // useEffect(()=>{
+  //   alert("IDO 已结束！");
+  // },[])
+
   useEffect(() => {
     if (IDO_CONTRACT && currentWalletAddress) {
       getCurrentPoolInfo();
@@ -421,8 +427,8 @@ export default function Home() {
               <p className=" text-xl text-white">WFCA</p>
             </div>
             <div className="w-full">
-              <div className="ds-badge ds-badge-accent ds-badge-outline">
-                OPEN
+              <div className="ds-badge ds-badge-error ds-badge-outline">
+                CLOSED
               </div>
             </div>
             <div className="w-full">
@@ -441,7 +447,7 @@ export default function Home() {
               欢迎来到
               WFCA，这是一个革命性的Web3平台，专注于提供最好的Web3项目！
             </div>
-
+{/* 
             {currentWalletAddress &&
               !(inviter == "0x0000000000000000000000000000000000000000") && (
                 <div className="w-full">
@@ -479,7 +485,8 @@ export default function Home() {
                     borderColor: "white",
                   }}
                   onClick={() => {
-                    claimRelaseToken();
+                    // claimRelaseToken();
+                    router.push("/wfca");
                   }}>
                   领取释放额度
                 </button>
@@ -499,7 +506,7 @@ export default function Home() {
                 }}>
                 连接钱包
               </button>
-            )}
+            )} */}
           </div>
           <div className="w-full lg:w-1/2 bg-pink-200 lg:h-full h-[500px] bg-opacity-25 backdrop-blur-sm rounded-b-3xl lg:rounded-l-none lg:rounded-r-xl  flex flex-col  p-4 space-y-2">
             {currentWalletAddress && (

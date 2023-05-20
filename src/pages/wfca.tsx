@@ -326,7 +326,7 @@ export default function Home() {
               WFCA 已正式在以太坊区块链上线！欢迎领取正式WFCA。
             </div>
             <div className="w-full grow text-center">
-              说明：需先领取锁仓sWFCA，然后根据当前释放比例和时间领取正式WFCA。
+              说明：需先领取锁仓WFCA，然后根据当前释放比例和时间领取正式WFCA。
             </div>
 
             {currentWalletAddress ? (
