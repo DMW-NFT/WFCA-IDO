@@ -37,6 +37,9 @@ export default function Home() {
   const [swfcaBlance, setSwfcaBlance] = useState<any>(null);
   const [activeClaimCondition, setActivClaimCondition] = useState<any>(null);
   const [reason, setReason] = useState<any>(null);
+  const [onClaimsWFCA, setOnClaimsWFCA] = useState(false);
+  const [onClaimRelaseToken, setOnClaimRelaseToken] = useState(false);
+
   const { contract } = useContract(
     "0x4a5fB709F987848884a393846c98981e97A953fc"
   );
@@ -64,7 +67,7 @@ export default function Home() {
     error: reasonError,
   } = useClaimIneligibilityReasons(contract, {
     walletAddress: currentWalletAddress, // Use useAddress hook to get the user's wallet address
-    quantity: claimerInfo?claimerInfo.maxClaimable:0, // Quantity to check eligibility for
+    quantity: claimerInfo ? claimerInfo.maxClaimable : 0, // Quantity to check eligibility for
   });
 
   const getReleaseRetio = () => {
@@ -82,6 +85,7 @@ export default function Home() {
   };
 
   const claimSWFCA = () => {
+    setOnClaimsWFCA(true);
     const quantity = ethers.utils.parseUnits(claimerInfo.maxClaimable, "ether");
     const currency = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
     const pricePerToken = ethers.utils.parseUnits("0", "ether");
@@ -99,21 +103,53 @@ export default function Home() {
       proof,
       []
     );
-    sWFCA_CONTRACT.claim(
-      currentWalletAddress,
-      quantity,
-      currency,
-      pricePerToken,
-      proof,
-      []
-    );
+    sWFCA_CONTRACT
+      .claim(currentWalletAddress, quantity, currency, pricePerToken, proof, [])
+      .then((tx: any) => {
+        console.log(tx);
+        tx.wait().then((res: any) => {
+          console.log("claimWFCA", res);
+          if (res.status) {
+            setOnClaimsWFCA(false);
+            getSWFCABalance();
+            getUerReleaseInfo();
+            alert("领取成功");
+          } else {
+            setOnClaimsWFCA(false);
+            alert("领取失败");
+          }
+        });
+      })
+      .catch((err: any) => {
+        setOnClaimsWFCA(false);
+        alert("领取失败");
+      });
   };
 
   const claimRelaseToken = () => {
     if (parseInt(userReleaseInfo.currentClaimable)) {
-      LOCK_CONTRACT.ClaimToken().then((res: any) => {
-        console.log(res);
-      });
+      setOnClaimRelaseToken(true);
+      LOCK_CONTRACT.ClaimToken()
+        .then((tx: any) => {
+          console.log(tx);
+          tx.wait().then((res: any) => {
+            console.log("claimRelaseToken", res);
+            if (res.status) {
+              setOnClaimRelaseToken(false);
+              getUerReleaseInfo();
+              alert("领取成功");
+            } else {
+              setOnClaimRelaseToken(false);
+              alert("领取失败");
+            }
+            setOnClaimRelaseToken(false);
+            getUerReleaseInfo();
+          });
+        })
+        .catch((err: any) => {
+          setOnClaimRelaseToken(false);
+          alert("领取失败");
+        });
     } else {
       alert("当前无可领取的WFCA");
     }
@@ -204,9 +240,9 @@ export default function Home() {
   useEffect(() => {
     console.log(reasons, reasonIsloading, reasonError);
     if (reason != null) {
-        setReason(reasons);
+      setReason(reasons);
     }
-    }, [currentWalletAddress, reasonIsloading, reasonError]);
+  }, [currentWalletAddress, reasonIsloading, reasonError]);
 
   useEffect(() => {
     if (LOCK_CONTRACT && currentWalletAddress) {
@@ -271,21 +307,64 @@ export default function Home() {
 
             {currentWalletAddress ? (
               <div className="w-full flex justify-between">
-                <label
-                  className="ds-btn ds-btn-outline ds-btn-secondary"
-                  htmlFor="my-modal-6"
-                  style={{
-                    backgroundImage:
-                      "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-                    color: "white",
-                    borderWidth: "3px",
-                    borderColor: "white",
-                  }}
-                  onClick={() => {
-                    claimSWFCA();
-                  }}>
-                  领取锁仓sWFCA
-                </label>
+                {!onClaimsWFCA ? (
+                  <label
+                    className="ds-btn ds-btn-outline ds-btn-secondary"
+                    htmlFor="my-modal-6"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                      color: "white",
+                      borderWidth: "3px",
+                      borderColor: "white",
+                    }}
+                    onClick={() => {
+                      claimSWFCA();
+                    }}>
+                    领取锁仓sWFCA
+                  </label>
+                ) : (
+                  <button
+                    onClick={() => {}}
+                    className="btn ds-btn disabled"
+                    style={{
+                      alignSelf: "center",
+                      color: "white",
+                      borderWidth: "3px",
+                      borderColor: "white",
+                    }}>
+                    正在领取中
+                  </button>
+                )}
+                {!onClaimRelaseToken ? (
+                  <label
+                    className="ds-btn ds-btn-outline ds-btn-secondary"
+                    htmlFor="my-modal-6"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                      color: "white",
+                      borderWidth: "3px",
+                      borderColor: "white",
+                    }}
+                    onClick={() => {
+                      claimRelaseToken();
+                    }}>
+                    领取释放的WFCA
+                  </label>
+                ) : (
+                  <button
+                    onClick={() => {}}
+                    className="btn ds-btn disabled"
+                    style={{
+                      alignSelf: "center",
+                      color: "white",
+                      borderWidth: "3px",
+                      borderColor: "white",
+                    }}>
+                    正在领取中
+                  </button>
+                )}
               </div>
             ) : (
               <button
