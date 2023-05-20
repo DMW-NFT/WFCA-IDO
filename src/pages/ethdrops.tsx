@@ -41,7 +41,7 @@ export default function Home() {
   const [onClaimRelaseToken, setOnClaimRelaseToken] = useState(false);
 
   const { contract } = useContract(
-    "0x4a5fB709F987848884a393846c98981e97A953fc"
+    "0xDCC45A40CdeD65b814A50531cEAb4BBbB750f850"
   );
   const connectWallet = async () => {
     // @ts-ignore
@@ -49,6 +49,30 @@ export default function Home() {
     setCurrentWalletAddress(accounts[0]);
   };
 
+  const addToken = async () => {
+    const tokenAddress = "0xae4533189C7281501F04bA4b7c37e3ADeD402902";
+    const tokenSymbol = "WFCA";
+    const tokenDecimals = 18;
+    const tokenImageUri =
+      "https://ipfs.thirdwebcdn.com/ipfs/QmQPcb31Q9rxuTcS2mr1of8J9BVWxRPPC1aBzeXB3oDEb9/WFCA.png";
+    try {
+      // @ts-ignore
+      await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: tokenDecimals,
+            tokenImage: tokenImageUri,
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const {
     data: claimerProofs,
     isLoading,
@@ -188,11 +212,11 @@ export default function Home() {
 
   useEffect(() => {
     if (window.ethereum != undefined) {
-      if (currtChainId != "0x5" || "") {
+      if (currtChainId != "0x1" || "") {
         // @ts-ignore
         window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x5" }], // chainId must be in hexadecimal numbers
+          params: [{ chainId: "0x1" }], // chainId must be in hexadecimal numbers
         });
       }
     }
@@ -203,17 +227,17 @@ export default function Home() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const sWFCA_CONTRACT = new ethers.Contract(
-      "0x4a5fB709F987848884a393846c98981e97A953fc",
+      "0xDCC45A40CdeD65b814A50531cEAb4BBbB750f850",
       ERC20DROP,
       signer
     );
     const WFCA_CONTRACT = new ethers.Contract(
-      "0xC07Dd9487D93acD4B06e2fB9A6Fc2643968A6D29",
+      "0xae4533189C7281501F04bA4b7c37e3ADeD402902",
       ERC20ABI,
       signer
     );
     const LOCK_CONTRACT = new ethers.Contract(
-      "0x34F44ECDCd77f2485b81dd31461b9Aa0308589b2",
+      "0x71Dd2Ce5ad0926391C2a858645D3e926983c87B7",
       LOCKABI,
       signer
     );
@@ -291,10 +315,10 @@ export default function Home() {
               </div>
             </div>
             <div className="w-full">
-              <div className="ds-badge ds-badge-warning text-white"></div>
+              {/* <div className="ds-badge ds-badge-warning text-white"></div> */}
             </div>
             <div className="w-full">
-              <div className="ds-badge ds-badge-warning text-white text-[8px]">
+              <div className="ds-badge ds-badge-warning text-white text-[8px]" onClick={addToken}>
                 添加WFCA到钱包
               </div>
             </div>
@@ -307,35 +331,36 @@ export default function Home() {
 
             {currentWalletAddress ? (
               <div className="w-full flex justify-between">
-                {claimerInfo&&(!onClaimsWFCA ? (
-                  <label
-                    className="ds-btn ds-btn-outline ds-btn-secondary"
-                    htmlFor="my-modal-6"
-                    style={{
-                      backgroundImage:
-                        "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
-                      color: "white",
-                      borderWidth: "3px",
-                      borderColor: "white",
-                    }}
-                    onClick={() => {
-                      claimSWFCA();
-                    }}>
-                    领取锁仓WFCA
-                  </label>
-                ) : (
-                  <button
-                    onClick={() => {}}
-                    className="btn ds-btn disabled"
-                    style={{
-                      alignSelf: "center",
-                      color: "white",
-                      borderWidth: "3px",
-                      borderColor: "white",
-                    }}>
-                    正在领取中
-                  </button>
-                ))}
+                {claimerInfo &&
+                  (!onClaimsWFCA ? (
+                    <label
+                      className="ds-btn ds-btn-outline ds-btn-secondary"
+                      htmlFor="my-modal-6"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(to right, rgb(219 85 245), rgb(51 126 208) ",
+                        color: "white",
+                        borderWidth: "3px",
+                        borderColor: "white",
+                      }}
+                      onClick={() => {
+                        claimSWFCA();
+                      }}>
+                      领取锁仓WFCA
+                    </label>
+                  ) : (
+                    <button
+                      onClick={() => {}}
+                      className="btn ds-btn disabled"
+                      style={{
+                        alignSelf: "center",
+                        color: "white",
+                        borderWidth: "3px",
+                        borderColor: "white",
+                      }}>
+                      正在领取中
+                    </button>
+                  ))}
                 {!onClaimRelaseToken ? (
                   <label
                     className="ds-btn ds-btn-outline ds-btn-secondary"
@@ -389,13 +414,16 @@ export default function Home() {
                 <div className="w-1/2">
                   <p className=" text-sm text-white">可认领锁仓WFCA:</p>
                   <p className=" text-2xl text-white overflow-auto">
-                    {claimerInfo ? claimerInfo.maxClaimable:"加载中..."}
+                    {claimerInfo ? claimerInfo.maxClaimable : "加载中..."}
                   </p>
                 </div>
                 <div className="w-1/2 pl-2">
                   <p className=" text-sm text-white">已认领锁仓WFCA:</p>
                   <p className=" text-2xl text-white overflow-auto">
-                    {swfcaBlance ? ethers.utils.formatEther(swfcaBlance):"加载中..."} 锁仓WFCA
+                    {swfcaBlance
+                      ? ethers.utils.formatEther(swfcaBlance)
+                      : "加载中..."}{" "}
+                    锁仓WFCA
                   </p>
                 </div>
               </div>

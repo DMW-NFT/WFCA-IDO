@@ -11,7 +11,7 @@ import {
 } from "@thirdweb-dev/chains";
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ThirdwebProvider activeChain="goerli" supportedChains={[Binance,Goerli]}>
+    <ThirdwebProvider activeChain="ethereum" supportedChains={[Ethereum]}>
       <Component {...pageProps} />
     </ThirdwebProvider>
   );
